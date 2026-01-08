@@ -26,18 +26,18 @@ export default function Sidebar() {
         <aside className="w-60 bg-background border-r border-border min-h-screen flex flex-col">
             {/* Logo */}
             <div className="px-6 py-8 border-b border-border">
-                <h1 className="text-base font-bold uppercase tracking-[0.2em] text-foreground leading-tight">
+                <h1 className="text-lg font-bold uppercase tracking-[0.2em] text-foreground leading-tight">
                     Coffee Links
                 </h1>
-                <p className="text-[10px] uppercase tracking-[0.15em] text-neutral-400 mt-2">
+                <p className="text-[11px] uppercase tracking-[0.15em] text-neutral-500 mt-2 font-bold">
                     Admin Panel
                 </p>
             </div>
 
             {/* Navigation */}
             <nav className="flex-1 py-6 px-4">
-                <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-neutral-400 mb-4 px-3">
-                    Navigation
+                <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-neutral-500 mb-4 px-3">
+                    Menu
                 </p>
                 <ul className="space-y-0.5">
                     {navItems.map((item) => {
@@ -46,12 +46,12 @@ export default function Sidebar() {
                             <li key={item.href}>
                                 <Link
                                     href={item.href}
-                                    className={`flex items-center gap-3 px-3 py-2.5 text-[11px] font-semibold uppercase tracking-[0.1em] transition-all border-l-2 ${isActive
-                                            ? 'bg-primary/5 text-primary border-primary'
-                                            : 'text-neutral-500 border-transparent hover:bg-neutral-100 hover:text-foreground hover:border-neutral-300'
+                                    className={`flex items-center gap-4 px-3 py-3 text-[13px] font-bold uppercase tracking-[0.05em] transition-all border-l-4 ${isActive
+                                        ? 'bg-neutral-100 text-primary border-primary'
+                                        : 'text-neutral-600 border-transparent hover:bg-neutral-50 hover:text-foreground hover:border-neutral-300'
                                         }`}
                                 >
-                                    <item.icon size={15} strokeWidth={1.75} />
+                                    <item.icon size={20} strokeWidth={2} />
                                     {item.label}
                                 </Link>
                             </li>
@@ -64,9 +64,9 @@ export default function Sidebar() {
             <div className="py-4 px-4 border-t border-border">
                 <Link
                     href="/settings"
-                    className="flex items-center gap-3 px-3 py-2.5 text-[11px] font-semibold uppercase tracking-[0.1em] text-neutral-400 hover:bg-neutral-100 hover:text-foreground transition-all"
+                    className="flex items-center gap-4 px-3 py-3 text-[13px] font-bold uppercase tracking-[0.05em] text-neutral-600 hover:bg-neutral-50 hover:text-foreground transition-all"
                 >
-                    <Settings size={15} strokeWidth={1.75} />
+                    <Settings size={20} strokeWidth={2} />
                     Settings
                 </Link>
             </div>

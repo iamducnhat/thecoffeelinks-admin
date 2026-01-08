@@ -78,7 +78,7 @@ export default function ProductsPage() {
 
             {/* Filters */}
             <div className="card mb-6">
-                <div className="flex flex-wrap gap-4">
+                <div className="flex flex-wrap gap-6">
                     <div className="flex-1 min-w-[240px]">
                         <div className="relative">
                             <Search size={15} className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400" />

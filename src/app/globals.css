@@ -107,9 +107,9 @@ a {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 12px 20px;
-  font-size: 12px;
+  gap: 12px;
+  padding: 16px 28px;
+  font-size: 13px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -117,7 +117,7 @@ a {
   cursor: pointer;
   transition: all 0.15s ease;
   white-space: nowrap;
-  min-height: 44px;
+  min-height: 52px;
 }
 
 .btn-sm {
@@ -183,7 +183,7 @@ a {
    ============================================ */
 .input {
   width: 100%;
-  padding: var(--space-3) var(--space-4);
+  padding: 16px 20px;
   font-size: 0.875rem;
   border: 1px solid var(--border);
   background: var(--background);
@@ -216,8 +216,8 @@ select.input {
 
 .label {
   display: block;
-  font-size: 0.6875rem;
-  /* 11px */
+  font-size: 0.75rem;
+  /* 12px */
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -226,7 +226,7 @@ select.input {
 }
 
 .form-group {
-  margin-bottom: var(--space-5);
+  margin-bottom: 24px;
 }
 
 .form-group:last-child {
@@ -236,7 +236,7 @@ select.input {
 .form-row {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: var(--space-4);
+  gap: 24px;
 }
 
 /* ============================================
@@ -321,8 +321,8 @@ select.input {
 }
 
 .page-title {
-  font-size: 1.25rem;
-  /* 20px */
+  font-size: 1.5rem;
+  /* 24px */
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.15em;
@@ -402,7 +402,7 @@ select.input {
 .grid-stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
+  gap: 24px;
 }
 
 @media (max-width: 1024px) {
@@ -414,7 +414,7 @@ select.input {
 .grid-cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
+  gap: 24px;
 }
 
 @media (max-width: 1024px) {

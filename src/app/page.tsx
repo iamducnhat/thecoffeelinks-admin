@@ -81,7 +81,7 @@ export default function Dashboard() {
       {/* Quick Actions */}
       <div className="card">
         <h2 className="section-title">Quick Actions</h2>
-        <div className="flex flex-wrap gap-4">
+        <div className="flex flex-wrap gap-6">
           <Link href="/products/new" className="btn btn-primary">
             <Coffee size={16} />
             Add Product

@@ -155,7 +155,7 @@ export default function NewEventPage() {
                     </div>
                 </div>
 
-                <div className="flex gap-3 mt-6">
+                <div className="flex gap-6 mt-8">
                     <button type="submit" disabled={saving} className="btn btn-primary">
                         <Save size={16} />
                         {saving ? 'Saving...' : 'Save Event'}
