@@ -26,10 +26,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <div className="flex min-h-screen">
+        <div className="flex min-h-screen bg-neutral-100">
           <Sidebar />
-          <main className="flex-1 p-8 bg-neutral-100">
-            {children}
+          <main className="flex-1 min-w-0">
+            {/* Header Spacer or Top Bar if needed, otherwise padding */}
+            <div className="p-8 lg:p-12 w-full max-w-[1600px]">
+              {children}
+            </div>
           </main>
         </div>
       </body>

@@ -23,51 +23,64 @@ export default function Sidebar() {
     const pathname = usePathname();
 
     return (
-        <aside className="w-60 bg-background border-r border-border min-h-screen flex flex-col">
-            {/* Logo */}
-            <div className="px-8 py-10 border-b border-border">
-                <h1 className="text-2xl font-bold uppercase tracking-[0.2em] text-foreground leading-tight">
+        <aside className="w-64 bg-background border-r border-border min-h-screen flex flex-col shrink-0 relative z-20">
+            {/* Header - Aligned to Page Header Height */}
+            <div className="h-24 px-8 flex flex-col justify-center border-b border-border">
+                <h1 className="text-2xl font-bold uppercase tracking-[0.2em] text-foreground leading-none">
                     Coffee Links
                 </h1>
-                <p className="text-xs uppercase tracking-[0.15em] text-neutral-500 mt-3 font-bold">
+                <p className="text-[10px] uppercase tracking-[0.2em] text-neutral-500 mt-2 font-bold">
                     Admin Panel
                 </p>
             </div>
 
             {/* Navigation */}
-            <nav className="flex-1 py-8 px-6">
-                <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-neutral-500 mb-6 px-4">
-                    Menu
+            <nav className="flex-1 py-8 px-0 flex flex-col gap-1">
+                <p className="px-8 text-[10px] font-extrabold uppercase tracking-[0.2em] text-neutral-400 mb-4 ml-1">
+                    Main Menu
                 </p>
-                <ul className="space-y-1">
-                    {navItems.map((item) => {
-                        const isActive = pathname === item.href;
-                        return (
-                            <li key={item.href}>
-                                <Link
-                                    href={item.href}
-                                    className={`flex items-center gap-3 px-3 py-4 text-sm font-bold uppercase tracking-[0.05em] transition-all border-l-4 ${isActive
-                                        ? 'bg-neutral-100 text-primary border-primary'
-                                        : 'text-neutral-600 border-transparent hover:bg-neutral-50 hover:text-foreground hover:border-neutral-300'
-                                        }`}
-                                >
-                                    <item.icon size={20} strokeWidth={2} />
-                                    {item.label}
-                                </Link>
-                            </li>
-                        );
-                    })}
-                </ul>
+
+                {navItems.map((item) => {
+                    const isActive = pathname === item.href;
+                    return (
+                        <Link
+                            key={item.href}
+                            href={item.href}
+                            className={`
+                                group relative flex items-center gap-4 px-8 py-4 w-full transition-all duration-200
+                                ${isActive
+                                    ? 'bg-neutral-100/80 text-primary border-l-[6px] border-primary'
+                                    : 'text-neutral-500 hover:text-foreground hover:bg-neutral-50 border-l-[6px] border-transparent'
+                                }
+                            `}
+                        >
+                            <item.icon
+                                size={20}
+                                strokeWidth={2}
+                                className={`transition-colors ${isActive ? 'text-primary' : 'text-neutral-400 group-hover:text-foreground'}`}
+                            />
+                            <span className="text-sm font-bold uppercase tracking-[0.1em]">
+                                {item.label}
+                            </span>
+                        </Link>
+                    );
+                })}
             </nav>
 
             {/* Footer */}
-            <div className="py-4 px-4 border-t border-border">
+            <div className="p-8 border-t border-border mt-auto">
                 <Link
                     href="/settings"
-                    className="flex items-center gap-3 px-3 py-4 text-sm font-bold uppercase tracking-[0.05em] text-neutral-600 hover:bg-neutral-50 hover:text-foreground transition-all"
+                    className="flex items-center gap-4 text-neutral-500 hover:text-foreground group transition-colors"
                 >
-                    <Settings size={20} strokeWidth={2} />
-                    Settings
+                    <Settings
+                        size={20}
+                        strokeWidth={2}
+                        className="text-neutral-400 group-hover:text-foreground transition-colors"
+                    />
+                    <span className="text-sm font-bold uppercase tracking-[0.1em]">
+                        Settings
+                    </span>
                 </Link>
             </div>
         </aside>

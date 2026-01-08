@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  /* Forest Theme Palette - matching client app */
+  /* Forest Theme Palette */
   --foreground: #1A2E22;
   --background: #F5F5F0;
 
@@ -10,8 +10,6 @@
   --neutral-100: #F0F0E8;
   --neutral-200: #E2E2D9;
   --neutral-300: #C5C5BC;
-  --neutral-400: #9A9A8F;
-  --neutral-500: #6B6B60;
   --neutral-800: #2E3B33;
   --neutral-900: #1A2E22;
 
@@ -20,35 +18,15 @@
   --primary-hover: #234832;
   --secondary: #8B5E3C;
   --accent: #8B5E3C;
-
-  /* Status Colors */
-  --danger: #943131;
-  --danger-hover: #7a2828;
-  --success: #2E5A3A;
+  --accent-foreground: #F5F5F0;
 
   /* Borders */
-  --border: #C5C5BC;
+  --border-color: #A3B8A9;
   --border-strong: #2E5A3A;
 
-  /* Spacing System - 8px base */
-  --space-1: 0.25rem;
-  /* 4px */
-  --space-2: 0.5rem;
-  /* 8px */
-  --space-3: 0.75rem;
-  /* 12px */
-  --space-4: 1rem;
-  /* 16px */
-  --space-5: 1.25rem;
-  /* 20px */
-  --space-6: 1.5rem;
-  /* 24px */
-  --space-8: 2rem;
-  /* 32px */
-  --space-10: 2.5rem;
-  /* 40px */
-  --space-12: 3rem;
-  /* 48px */
+  /* Status */
+  --danger: #943131;
+  --success: #2E5A3A;
 }
 
 @theme inline {
@@ -58,17 +36,18 @@
   --color-neutral-100: var(--neutral-100);
   --color-neutral-200: var(--neutral-200);
   --color-neutral-300: var(--neutral-300);
-  --color-neutral-400: var(--neutral-400);
-  --color-neutral-500: var(--neutral-500);
   --color-neutral-800: var(--neutral-800);
   --color-neutral-900: var(--neutral-900);
   --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
   --color-secondary: var(--secondary);
   --color-accent: var(--accent);
-  --color-border: var(--border);
+  --color-border: var(--border-color);
+  --color-border-strong: var(--border-strong);
   --color-danger: var(--danger);
+  --color-success: var(--success);
 
-  /* Sharp aesthetic - no rounded corners */
+  /* Sharp Aesthetic - Forest Theme */
   --radius-none: 0px;
   --radius-sm: 0px;
   --radius-md: 0px;
@@ -77,440 +56,113 @@
 
 * {
   box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
-
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
 }
 
 body {
-  color: var(--foreground);
   background: var(--neutral-100);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), sans-serif;
   -webkit-font-smoothing: antialiased;
-  font-size: 14px;
-  line-height: 1.5;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
+/* =========================================
+   FOREST DESIGN SYSTEM COMPONENT RESETS
+   ========================================= */
 
-/* ============================================
-   BUTTONS - Refined with better proportions
-   ============================================ */
+/* Buttons: Rectangular, Uppercase, Tracking */
 .btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  padding: 12px 24px;
-  font-size: 13px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  border: 1px solid transparent;
-  cursor: pointer;
-  transition: all 0.15s ease;
-  white-space: nowrap;
+  @apply inline-flex items-center justify-center gap-2 px-6 py-3 font-bold uppercase tracking-wider transition-all duration-200 cursor-pointer text-sm;
+  border-radius: 0px;
   min-height: 48px;
 }
 
-.btn-sm {
-  padding: 8px 14px;
-  font-size: 11px;
-  min-height: 36px;
-}
-
 .btn-primary {
-  background: var(--primary);
-  color: var(--neutral-50);
-  border-color: var(--primary);
+  @apply bg-primary text-neutral-50 border border-primary hover:bg-primary-hover;
 }
 
-.btn-primary:hover {
-  background: var(--primary-hover);
-  border-color: var(--primary-hover);
-}
-
-.btn-danger {
-  background: var(--danger);
-  color: var(--neutral-50);
-  border-color: var(--danger);
-}
-
-.btn-danger:hover {
-  background: var(--danger-hover);
-  border-color: var(--danger-hover);
+.btn-secondary {
+  /* Using standard colors instead of custom ones to avoid build errors if undefined */
+  @apply bg-neutral-200 text-foreground border border-neutral-300 hover:bg-neutral-300;
 }
 
 .btn-outline {
-  background: var(--background);
-  border-color: var(--border);
-  color: var(--foreground);
+  @apply bg-transparent text-foreground border border-border hover:bg-neutral-50 hover:border-border-strong;
 }
 
-.btn-outline:hover {
-  background: var(--neutral-50);
-  border-color: var(--border-strong);
+.btn-danger {
+  @apply bg-danger text-white border border-danger hover:opacity-90;
 }
 
-/* ============================================
-   CARDS - Consistent padding and spacing
-   ============================================ */
-.card {
-  background: var(--background);
-  border: 1px solid var(--border);
-  padding: 24px;
+.btn-sm {
+  @apply px-4 py-2 text-xs h-9 min-h-0;
 }
 
-.card-compact {
-  padding: var(--space-4);
-}
-
-.card-header {
-  padding-bottom: var(--space-4);
-  margin-bottom: var(--space-4);
-  border-bottom: 1px solid var(--border);
-}
-
-/* ============================================
-   FORM ELEMENTS - Better visual weight
-   ============================================ */
+/* Inputs: Sharp, Earthy Border */
 .input {
-  width: 100%;
-  padding: 16px 20px;
-  font-size: 0.875rem;
-  border: 1px solid var(--border);
-  background: var(--background);
-  color: var(--foreground);
-  outline: none;
-  transition: border-color 0.15s;
+  @apply w-full px-4 py-3 bg-background border border-border text-foreground transition-colors focus:outline-none focus:border-border-strong focus:ring-0;
+  border-radius: 0px;
 }
 
-.input:focus {
-  border-color: var(--border-strong);
+/* Cards: Sharp, Subtle Border */
+.card {
+  @apply bg-background border border-border p-6 shadow-sm;
+  border-radius: 0px;
 }
 
-.input::placeholder {
-  color: var(--neutral-400);
+/* Typography Utilities */
+.text-header {
+  @apply uppercase tracking-widest font-bold text-foreground;
 }
 
-textarea.input {
-  resize: vertical;
-  min-height: 80px;
+.text-label {
+  @apply text-xs uppercase tracking-wider font-semibold text-neutral-500;
 }
 
-select.input {
-  cursor: pointer;
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B6B60' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 12px center;
-  padding-right: 2.5rem;
-}
-
-.label {
-  display: block;
-  font-size: 0.75rem;
-  /* 12px */
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-bottom: var(--space-2);
-  color: var(--neutral-500);
-}
-
-.form-group {
-  margin-bottom: 24px;
-}
-
-.form-group:last-child {
-  margin-bottom: 0;
-}
-
-.form-row {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
-}
-
-/* ============================================
-   TABLE - Better cell padding and alignment
-   ============================================ */
-.table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.table th,
-.table td {
-  padding: var(--space-4) var(--space-5);
-  text-align: left;
-  border-bottom: 1px solid var(--border);
-  vertical-align: middle;
-}
-
-.table th {
-  font-size: 0.625rem;
-  /* 10px */
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--neutral-500);
-  background: var(--neutral-100);
-  padding: var(--space-3) var(--space-5);
-}
-
-.table tbody tr {
-  transition: background-color 0.1s;
-}
-
-.table tbody tr:hover {
-  background: var(--neutral-50);
-}
-
-.table td:last-child {
-  text-align: right;
-}
-
-/* ============================================
-   BADGES - Refined sizing
-   ============================================ */
+/* Badge */
 .badge {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-1);
-  padding: var(--space-1) var(--space-2);
-  font-size: 0.5625rem;
-  /* 9px */
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  border: 1px solid;
-  line-height: 1;
+  @apply inline-flex items-center px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider border;
+  border-radius: 0px;
 }
 
 .badge-success {
-  background: var(--neutral-50);
-  color: var(--primary);
-  border-color: var(--primary);
+  @apply bg-neutral-50 text-success border-success;
 }
 
+/* Explicit success usage */
 .badge-warning {
-  background: #FEF3C7;
-  color: #92400E;
-  border-color: #D97706;
+  @apply bg-amber-50 text-amber-700 border-amber-500;
 }
 
-.badge-info {
-  background: var(--neutral-50);
-  color: var(--secondary);
-  border-color: var(--secondary);
+.badge-neutral {
+  @apply bg-neutral-100 text-neutral-600 border-neutral-300;
 }
 
-/* ============================================
-   PAGE LAYOUT - Consistent spacing
-   ============================================ */
+/* Table */
+.table {
+  @apply w-full border-collapse text-sm text-left;
+}
+
+.table th {
+  @apply px-4 py-3 bg-neutral-100 font-bold uppercase tracking-wider text-xs border-b border-border text-neutral-600;
+}
+
+.table td {
+  @apply px-4 py-3 border-b border-border;
+}
+
+.table tr:hover {
+  @apply bg-neutral-50;
+}
+
+/* Layout Utilities */
 .page-header {
-  margin-bottom: var(--space-8);
+  @apply flex flex-col gap-1 mb-6 pb-4 border-b border-border;
 }
 
 .page-title {
-  font-size: 1.5rem;
-  /* 24px */
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  color: var(--foreground);
-  line-height: 1.2;
+  @apply text-2xl font-bold uppercase tracking-widest text-foreground;
 }
 
 .page-subtitle {
-  font-size: 0.6875rem;
-  /* 11px */
-  color: var(--neutral-500);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-top: var(--space-1);
-}
-
-.section-title {
-  font-size: 0.875rem;
-  /* 14px */
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--foreground);
-  margin-bottom: 24px;
-}
-
-/* ============================================
-   STAT CARDS - Better proportions
-   ============================================ */
-.stat-card {
-  background: var(--background);
-  border: 1px solid var(--border);
-  padding: 24px;
-  transition: border-color 0.15s;
-}
-
-.stat-card:hover {
-  border-color: var(--border-strong);
-}
-
-.stat-value {
-  font-size: 2rem;
-  font-weight: 700;
-  font-family: ui-monospace, monospace;
-  color: var(--foreground);
-  line-height: 1;
-  margin-bottom: var(--space-1);
-}
-
-.stat-label {
-  font-size: 0.625rem;
-  /* 10px */
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--neutral-500);
-}
-
-.stat-icon {
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid var(--border);
-  margin-bottom: var(--space-4);
-  transition: border-color 0.15s;
-}
-
-.stat-card:hover .stat-icon {
-  border-color: var(--primary);
-}
-
-/* ============================================
-   GRID LAYOUTS
-   ============================================ */
-.grid-stats {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
-}
-
-@media (max-width: 1024px) {
-  .grid-stats {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-.grid-cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-}
-
-@media (max-width: 1024px) {
-  .grid-cards {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 640px) {
-  .grid-cards {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* ============================================
-   UTILITY CLASSES
-   ============================================ */
-.text-mono {
-  font-family: ui-monospace, SFMono-Regular, monospace;
-}
-
-.text-muted {
-  color: var(--neutral-500);
-}
-
-.text-primary {
-  color: var(--primary);
-}
-
-.text-danger {
-  color: var(--danger);
-}
-
-.gap-4 {
-  gap: var(--space-4);
-}
-
-.gap-6 {
-  gap: var(--space-6);
-}
-
-.mb-4 {
-  margin-bottom: var(--space-4);
-}
-
-.mb-6 {
-  margin-bottom: var(--space-6);
-}
-
-.mb-8 {
-  margin-bottom: var(--space-8);
-}
-
-.mt-4 {
-  margin-top: var(--space-4);
-}
-
-.mt-6 {
-  margin-top: var(--space-6);
-}
-
-.p-0 {
-  padding: 0;
-}
-
-/* Action buttons in table cells */
-.action-btn {
-  padding: var(--space-2);
-  color: var(--neutral-400);
-  transition: color 0.15s;
-}
-
-.action-btn:hover {
-  color: var(--primary);
-}
-
-.action-btn-danger:hover {
-  color: var(--danger);
-}
-
-/* Empty state */
-.empty-state {
-  padding: var(--space-12) var(--space-8);
-  text-align: center;
-  color: var(--neutral-500);
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-}
-
-/* Loading state */
-.loading-state {
-  padding: var(--space-12) var(--space-8);
-  text-align: center;
-  color: var(--neutral-400);
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+  @apply text-sm text-neutral-500 uppercase tracking-widest font-medium;
 }
