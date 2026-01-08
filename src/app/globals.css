@@ -107,23 +107,23 @@ a {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-2);
-  padding: var(--space-3) var(--space-5);
-  font-size: 0.6875rem;
-  /* 11px */
-  font-weight: 700;
+  gap: 8px;
+  padding: 12px 20px;
+  font-size: 12px;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   border: 1px solid transparent;
   cursor: pointer;
   transition: all 0.15s ease;
   white-space: nowrap;
+  min-height: 44px;
 }
 
 .btn-sm {
-  padding: var(--space-2) var(--space-3);
-  font-size: 0.625rem;
-  /* 10px */
+  padding: 8px 14px;
+  font-size: 11px;
+  min-height: 36px;
 }
 
 .btn-primary {
@@ -165,7 +165,7 @@ a {
 .card {
   background: var(--background);
   border: 1px solid var(--border);
-  padding: var(--space-6);
+  padding: 24px;
 }
 
 .card-compact {
@@ -355,7 +355,7 @@ select.input {
 .stat-card {
   background: var(--background);
   border: 1px solid var(--border);
-  padding: var(--space-5);
+  padding: 24px;
   transition: border-color 0.15s;
 }
 
@@ -402,7 +402,7 @@ select.input {
 .grid-stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: var(--space-4);
+  gap: 16px;
 }
 
 @media (max-width: 1024px) {
@@ -414,7 +414,7 @@ select.input {
 .grid-cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-4);
+  gap: 16px;
 }
 
 @media (max-width: 1024px) {

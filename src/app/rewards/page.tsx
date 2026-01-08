@@ -60,7 +60,7 @@ export default function RewardsPage() {
                     <p className="page-subtitle">Manage loyalty program rewards</p>
                 </div>
                 <Link href="/rewards/new" className="btn btn-primary">
-                    <Plus size={14} />
+                    <Plus size={16} />
                     Add Reward
                 </Link>
             </div>

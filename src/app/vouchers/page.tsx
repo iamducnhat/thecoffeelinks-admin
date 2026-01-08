@@ -61,7 +61,7 @@ export default function VouchersPage() {
                     <p className="page-subtitle">Manage discount codes</p>
                 </div>
                 <Link href="/vouchers/new" className="btn btn-primary">
-                    <Plus size={14} />
+                    <Plus size={16} />
                     Add Voucher
                 </Link>
             </div>

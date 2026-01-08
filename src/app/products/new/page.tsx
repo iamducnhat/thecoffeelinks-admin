@@ -145,7 +145,7 @@ export default function NewProductPage() {
 
                 <div className="flex gap-3 mt-6">
                     <button type="submit" disabled={saving} className="btn btn-primary">
-                        <Save size={14} />
+                        <Save size={16} />
                         {saving ? 'Saving...' : 'Save Product'}
                     </button>
                     <Link href="/products" className="btn btn-outline">

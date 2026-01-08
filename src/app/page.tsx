@@ -81,21 +81,21 @@ export default function Dashboard() {
       {/* Quick Actions */}
       <div className="card">
         <h2 className="section-title">Quick Actions</h2>
-        <div className="flex flex-wrap gap-3">
+        <div className="flex flex-wrap gap-4">
           <Link href="/products/new" className="btn btn-primary">
-            <Coffee size={14} />
+            <Coffee size={16} />
             Add Product
           </Link>
           <Link href="/events/new" className="btn btn-outline">
-            <Calendar size={14} />
+            <Calendar size={16} />
             Add Event
           </Link>
           <Link href="/vouchers/new" className="btn btn-outline">
-            <Tag size={14} />
+            <Tag size={16} />
             Add Voucher
           </Link>
           <Link href="/rewards/new" className="btn btn-outline">
-            <Gift size={14} />
+            <Gift size={16} />
             Add Reward
           </Link>
         </div>

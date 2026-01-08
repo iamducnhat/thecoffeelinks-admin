@@ -134,7 +134,7 @@ export default function NewVoucherPage() {
 
                 <div className="flex gap-3 mt-6">
                     <button type="submit" disabled={saving} className="btn btn-primary">
-                        <Save size={14} />
+                        <Save size={16} />
                         {saving ? 'Saving...' : 'Save Voucher'}
                     </button>
                     <Link href="/vouchers" className="btn btn-outline">

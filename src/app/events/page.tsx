@@ -55,7 +55,7 @@ export default function EventsPage() {
                     <p className="page-subtitle">Manage carousel promotions</p>
                 </div>
                 <Link href="/events/new" className="btn btn-primary">
-                    <Plus size={14} />
+                    <Plus size={16} />
                     Add Event
                 </Link>
             </div>

@@ -122,7 +122,7 @@ export default function NewRewardPage() {
 
                 <div className="flex gap-3 mt-6">
                     <button type="submit" disabled={saving} className="btn btn-primary">
-                        <Save size={14} />
+                        <Save size={16} />
                         {saving ? 'Saving...' : 'Save Reward'}
                     </button>
                     <Link href="/rewards" className="btn btn-outline">

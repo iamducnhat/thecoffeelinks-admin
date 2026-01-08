@@ -71,7 +71,7 @@ export default function ProductsPage() {
                     <p className="page-subtitle">Manage your menu items</p>
                 </div>
                 <Link href="/products/new" className="btn btn-primary">
-                    <Plus size={14} />
+                    <Plus size={16} />
                     Add Product
                 </Link>
             </div>
