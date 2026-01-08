@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Coffee, Calendar, Tag, Gift, TrendingUp, Users } from 'lucide-react';
+import { Coffee, Calendar, Tag, Gift } from 'lucide-react';
 import Link from 'next/link';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://appcafe-server.vercel.app';
@@ -51,60 +51,57 @@ export default function Dashboard() {
   };
 
   const statCards = [
-    { label: 'Products', value: stats.products, icon: Coffee, color: 'bg-blue-500', href: '/products' },
-    { label: 'Events', value: stats.events, icon: Calendar, color: 'bg-purple-500', href: '/events' },
-    { label: 'Vouchers', value: stats.vouchers, icon: Tag, color: 'bg-green-500', href: '/vouchers' },
-    { label: 'Rewards', value: stats.rewards, icon: Gift, color: 'bg-orange-500', href: '/rewards' },
+    { label: 'Products', value: stats.products, icon: Coffee, href: '/products' },
+    { label: 'Events', value: stats.events, icon: Calendar, href: '/events' },
+    { label: 'Vouchers', value: stats.vouchers, icon: Tag, href: '/vouchers' },
+    { label: 'Rewards', value: stats.rewards, icon: Gift, href: '/rewards' },
   ];
 
   return (
     <div>
+      {/* Header */}
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-        <p className="text-gray-500 mt-1">Welcome to The Coffee Links admin panel</p>
+        <h1 className="text-xl font-bold uppercase tracking-widest text-foreground">Dashboard</h1>
+        <p className="text-xs uppercase tracking-wider text-neutral-500 mt-1">
+          Welcome to The Coffee Links Admin
+        </p>
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         {statCards.map((stat) => (
-          <Link
-            key={stat.label}
-            href={stat.href}
-            className="card hover:shadow-md transition-shadow cursor-pointer"
-          >
-            <div className="flex items-center gap-4">
-              <div className={`w-12 h-12 ${stat.color} rounded-lg flex items-center justify-center`}>
-                <stat.icon size={24} className="text-white" />
-              </div>
-              <div>
-                <p className="text-sm text-gray-500">{stat.label}</p>
-                <p className="text-2xl font-bold text-gray-900">
-                  {loading ? '...' : stat.value}
-                </p>
+          <Link key={stat.label} href={stat.href} className="stat-card group">
+            <div className="flex items-center justify-between mb-4">
+              <div className="w-10 h-10 border border-border flex items-center justify-center group-hover:border-primary transition-colors">
+                <stat.icon size={18} className="text-primary" />
               </div>
             </div>
+            <p className="stat-value">{loading ? '...' : stat.value}</p>
+            <p className="stat-label mt-1">{stat.label}</p>
           </Link>
         ))}
       </div>
 
       {/* Quick Actions */}
       <div className="card">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <h2 className="text-sm font-bold uppercase tracking-widest text-foreground mb-6">
+          Quick Actions
+        </h2>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           <Link href="/products/new" className="btn btn-primary">
-            <Coffee size={16} />
+            <Coffee size={14} />
             Add Product
           </Link>
           <Link href="/events/new" className="btn btn-outline">
-            <Calendar size={16} />
+            <Calendar size={14} />
             Add Event
           </Link>
           <Link href="/vouchers/new" className="btn btn-outline">
-            <Tag size={16} />
+            <Tag size={14} />
             Add Voucher
           </Link>
           <Link href="/rewards/new" className="btn btn-outline">
-            <Gift size={16} />
+            <Gift size={14} />
             Add Reward
           </Link>
         </div>

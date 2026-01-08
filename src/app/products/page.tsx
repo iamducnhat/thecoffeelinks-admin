@@ -67,11 +67,13 @@ export default function ProductsPage() {
             {/* Header */}
             <div className="flex items-center justify-between mb-8">
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-900">Products</h1>
-                    <p className="text-gray-500 mt-1">Manage your menu items</p>
+                    <h1 className="text-xl font-bold uppercase tracking-widest text-foreground">Products</h1>
+                    <p className="text-xs uppercase tracking-wider text-neutral-500 mt-1">
+                        Manage your menu items
+                    </p>
                 </div>
                 <Link href="/products/new" className="btn btn-primary">
-                    <Plus size={16} />
+                    <Plus size={14} />
                     Add Product
                 </Link>
             </div>
@@ -81,7 +83,7 @@ export default function ProductsPage() {
                 <div className="flex flex-wrap gap-4">
                     <div className="flex-1 min-w-[200px]">
                         <div className="relative">
-                            <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                            <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" />
                             <input
                                 type="text"
                                 placeholder="Search products..."
@@ -108,9 +110,13 @@ export default function ProductsPage() {
             {/* Products Table */}
             <div className="card p-0 overflow-hidden">
                 {loading ? (
-                    <div className="p-8 text-center text-gray-500">Loading...</div>
+                    <div className="p-8 text-center text-neutral-500 text-xs uppercase tracking-wider">
+                        Loading...
+                    </div>
                 ) : filteredProducts.length === 0 ? (
-                    <div className="p-8 text-center text-gray-500">No products found</div>
+                    <div className="p-8 text-center text-neutral-500 text-xs uppercase tracking-wider">
+                        No products found
+                    </div>
                 ) : (
                     <table className="table">
                         <thead>
@@ -127,19 +133,23 @@ export default function ProductsPage() {
                                 <tr key={product.id}>
                                     <td>
                                         <div className="flex items-center gap-3">
-                                            <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
-                                                <Coffee size={18} className="text-gray-400" />
+                                            <div className="w-10 h-10 bg-neutral-100 border border-border flex items-center justify-center">
+                                                <Coffee size={16} className="text-neutral-400" />
                                             </div>
                                             <div>
-                                                <p className="font-medium text-gray-900">{product.name}</p>
-                                                <p className="text-sm text-gray-500 line-clamp-1">{product.description}</p>
+                                                <p className="font-bold text-sm uppercase tracking-wide text-foreground">
+                                                    {product.name}
+                                                </p>
+                                                <p className="text-xs text-neutral-500 line-clamp-1 mt-0.5">
+                                                    {product.description}
+                                                </p>
                                             </div>
                                         </div>
                                     </td>
                                     <td>
                                         <span className="badge badge-info capitalize">{product.category}</span>
                                     </td>
-                                    <td className="font-mono">{formatPrice(product.basePrice)}</td>
+                                    <td className="font-mono text-sm">{formatPrice(product.basePrice)}</td>
                                     <td>
                                         <div className="flex gap-1">
                                             {product.isPopular && <span className="badge badge-warning">Popular</span>}
@@ -150,15 +160,15 @@ export default function ProductsPage() {
                                         <div className="flex items-center justify-end gap-2">
                                             <Link
                                                 href={`/products/${product.id}/edit`}
-                                                className="p-2 text-gray-400 hover:text-blue-600 transition-colors"
+                                                className="p-2 text-neutral-400 hover:text-primary transition-colors"
                                             >
-                                                <Edit2 size={16} />
+                                                <Edit2 size={14} />
                                             </Link>
                                             <button
                                                 onClick={() => handleDelete(product.id)}
-                                                className="p-2 text-gray-400 hover:text-red-600 transition-colors"
+                                                className="p-2 text-neutral-400 hover:text-danger transition-colors"
                                             >
-                                                <Trash2 size={16} />
+                                                <Trash2 size={14} />
                                             </button>
                                         </div>
                                     </td>

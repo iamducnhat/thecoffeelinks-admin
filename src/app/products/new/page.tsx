@@ -54,12 +54,14 @@ export default function NewProductPage() {
         <div>
             {/* Header */}
             <div className="flex items-center gap-4 mb-8">
-                <Link href="/products" className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
-                    <ArrowLeft size={20} />
+                <Link href="/products" className="p-2 hover:bg-neutral-100 border border-transparent hover:border-border transition-all">
+                    <ArrowLeft size={18} />
                 </Link>
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-900">Add New Product</h1>
-                    <p className="text-gray-500 mt-1">Create a new menu item</p>
+                    <h1 className="text-xl font-bold uppercase tracking-widest text-foreground">Add Product</h1>
+                    <p className="text-xs uppercase tracking-wider text-neutral-500 mt-1">
+                        Create a new menu item
+                    </p>
                 </div>
             </div>
 
@@ -67,7 +69,7 @@ export default function NewProductPage() {
             <form onSubmit={handleSubmit} className="max-w-2xl">
                 <div className="card space-y-6">
                     <div>
-                        <label className="label">Product Name *</label>
+                        <label className="label">Product Name</label>
                         <input
                             type="text"
                             required
@@ -79,7 +81,7 @@ export default function NewProductPage() {
                     </div>
 
                     <div>
-                        <label className="label">Description *</label>
+                        <label className="label">Description</label>
                         <textarea
                             required
                             value={form.description}
@@ -92,18 +94,18 @@ export default function NewProductPage() {
 
                     <div className="grid grid-cols-2 gap-4">
                         <div>
-                            <label className="label">Price (VND) *</label>
+                            <label className="label">Price (VND)</label>
                             <input
                                 type="number"
                                 required
                                 value={form.basePrice}
                                 onChange={(e) => setForm({ ...form, basePrice: e.target.value })}
-                                className="input"
+                                className="input font-mono"
                                 placeholder="50000"
                             />
                         </div>
                         <div>
-                            <label className="label">Category *</label>
+                            <label className="label">Category</label>
                             <select
                                 value={form.category}
                                 onChange={(e) => setForm({ ...form, category: e.target.value })}
@@ -118,31 +120,31 @@ export default function NewProductPage() {
                         </div>
                     </div>
 
-                    <div className="flex gap-6">
+                    <div className="flex gap-6 pt-2">
                         <label className="flex items-center gap-2 cursor-pointer">
                             <input
                                 type="checkbox"
                                 checked={form.isPopular}
                                 onChange={(e) => setForm({ ...form, isPopular: e.target.checked })}
-                                className="w-4 h-4 rounded border-gray-300"
+                                className="w-4 h-4 border-border accent-primary"
                             />
-                            <span className="text-sm">Mark as Popular</span>
+                            <span className="text-xs font-bold uppercase tracking-wide">Mark as Popular</span>
                         </label>
                         <label className="flex items-center gap-2 cursor-pointer">
                             <input
                                 type="checkbox"
                                 checked={form.isNew}
                                 onChange={(e) => setForm({ ...form, isNew: e.target.checked })}
-                                className="w-4 h-4 rounded border-gray-300"
+                                className="w-4 h-4 border-border accent-primary"
                             />
-                            <span className="text-sm">Mark as New</span>
+                            <span className="text-xs font-bold uppercase tracking-wide">Mark as New</span>
                         </label>
                     </div>
                 </div>
 
-                <div className="flex gap-4 mt-6">
+                <div className="flex gap-3 mt-6">
                     <button type="submit" disabled={saving} className="btn btn-primary">
-                        <Save size={16} />
+                        <Save size={14} />
                         {saving ? 'Saving...' : 'Save Product'}
                     </button>
                     <Link href="/products" className="btn btn-outline">

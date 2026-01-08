@@ -9,7 +9,6 @@ import {
     Tag,
     Gift,
     Settings,
-    LogOut,
 } from 'lucide-react';
 
 const navItems = [
@@ -24,17 +23,22 @@ export default function Sidebar() {
     const pathname = usePathname();
 
     return (
-        <aside className="w-64 bg-white border-r border-gray-200 min-h-screen flex flex-col">
+        <aside className="w-64 bg-background border-r border-border min-h-screen flex flex-col">
             {/* Logo */}
-            <div className="p-6 border-b border-gray-200">
-                <h1 className="text-xl font-bold text-gray-900">
+            <div className="p-6 border-b border-border">
+                <h1 className="text-lg font-bold uppercase tracking-widest text-foreground">
                     ☕ Coffee Links
                 </h1>
-                <p className="text-xs text-gray-500 mt-1">Admin Dashboard</p>
+                <p className="text-[10px] uppercase tracking-widest text-neutral-500 mt-1">
+                    Admin Dashboard
+                </p>
             </div>
 
             {/* Navigation */}
             <nav className="flex-1 p-4">
+                <p className="text-[10px] font-bold uppercase tracking-widest text-neutral-400 mb-3 px-3">
+                    Menu
+                </p>
                 <ul className="space-y-1">
                     {navItems.map((item) => {
                         const isActive = pathname === item.href;
@@ -42,12 +46,12 @@ export default function Sidebar() {
                             <li key={item.href}>
                                 <Link
                                     href={item.href}
-                                    className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${isActive
-                                            ? 'bg-blue-50 text-blue-700'
-                                            : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                                    className={`flex items-center gap-3 px-3 py-3 text-xs font-bold uppercase tracking-wide transition-colors border-l-2 ${isActive
+                                            ? 'bg-neutral-100 text-primary border-primary'
+                                            : 'text-neutral-500 border-transparent hover:bg-neutral-50 hover:text-foreground hover:border-neutral-300'
                                         }`}
                                 >
-                                    <item.icon size={18} />
+                                    <item.icon size={16} strokeWidth={2} />
                                     {item.label}
                                 </Link>
                             </li>
@@ -57,12 +61,12 @@ export default function Sidebar() {
             </nav>
 
             {/* Footer */}
-            <div className="p-4 border-t border-gray-200">
+            <div className="p-4 border-t border-border">
                 <Link
                     href="/settings"
-                    className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors"
+                    className="flex items-center gap-3 px-3 py-3 text-xs font-bold uppercase tracking-wide text-neutral-500 hover:bg-neutral-50 hover:text-foreground transition-colors"
                 >
-                    <Settings size={18} />
+                    <Settings size={16} strokeWidth={2} />
                     Settings
                 </Link>
             </div>

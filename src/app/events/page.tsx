@@ -51,47 +51,53 @@ export default function EventsPage() {
             {/* Header */}
             <div className="flex items-center justify-between mb-8">
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-900">Events</h1>
-                    <p className="text-gray-500 mt-1">Manage carousel promotions and events</p>
+                    <h1 className="text-xl font-bold uppercase tracking-widest text-foreground">Events</h1>
+                    <p className="text-xs uppercase tracking-wider text-neutral-500 mt-1">
+                        Manage carousel promotions
+                    </p>
                 </div>
                 <Link href="/events/new" className="btn btn-primary">
-                    <Plus size={16} />
+                    <Plus size={14} />
                     Add Event
                 </Link>
             </div>
 
             {/* Events Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {loading ? (
-                    <div className="col-span-full p-8 text-center text-gray-500">Loading...</div>
+                    <div className="col-span-full p-8 text-center text-neutral-500 text-xs uppercase tracking-wider">
+                        Loading...
+                    </div>
                 ) : events.length === 0 ? (
-                    <div className="col-span-full p-8 text-center text-gray-500">No events found</div>
+                    <div className="col-span-full p-8 text-center text-neutral-500 text-xs uppercase tracking-wider">
+                        No events found
+                    </div>
                 ) : (
                     events.map((event) => (
-                        <div key={event.id} className="card overflow-hidden">
-                            <div className={`${event.bg} p-6 -m-6 mb-4`}>
-                                <div className="flex items-center justify-between">
-                                    <span className="text-xs font-bold uppercase tracking-wider opacity-80">
+                        <div key={event.id} className="card p-0 overflow-hidden">
+                            <div className="bg-neutral-900 text-neutral-50 p-6">
+                                <div className="flex items-center justify-between mb-4">
+                                    <span className="text-[10px] font-bold uppercase tracking-widest opacity-60">
                                         {event.type}
                                     </span>
-                                    <Calendar size={20} />
+                                    <Calendar size={16} className="opacity-60" />
                                 </div>
-                                <h3 className="text-xl font-bold mt-4">{event.title}</h3>
-                                <p className="text-sm opacity-80 mt-1">{event.subtitle}</p>
+                                <h3 className="text-lg font-bold uppercase tracking-wide">{event.title}</h3>
+                                <p className="text-xs opacity-60 mt-1 uppercase">{event.subtitle}</p>
                             </div>
-                            <div className="flex items-center justify-end gap-2 pt-4">
+                            <div className="flex items-center justify-end gap-2 p-4 border-t border-border">
                                 <Link
                                     href={`/events/${event.id}/edit`}
-                                    className="btn btn-outline text-sm py-1.5"
+                                    className="btn btn-outline text-xs py-2"
                                 >
-                                    <Edit2 size={14} />
+                                    <Edit2 size={12} />
                                     Edit
                                 </Link>
                                 <button
                                     onClick={() => handleDelete(event.id)}
-                                    className="btn btn-danger text-sm py-1.5"
+                                    className="btn btn-danger text-xs py-2"
                                 >
-                                    <Trash2 size={14} />
+                                    <Trash2 size={12} />
                                     Delete
                                 </button>
                             </div>

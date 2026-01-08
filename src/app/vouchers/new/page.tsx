@@ -52,12 +52,14 @@ export default function NewVoucherPage() {
         <div>
             {/* Header */}
             <div className="flex items-center gap-4 mb-8">
-                <Link href="/vouchers" className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
-                    <ArrowLeft size={20} />
+                <Link href="/vouchers" className="p-2 hover:bg-neutral-100 border border-transparent hover:border-border transition-all">
+                    <ArrowLeft size={18} />
                 </Link>
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-900">Add New Voucher</h1>
-                    <p className="text-gray-500 mt-1">Create a new discount code</p>
+                    <h1 className="text-xl font-bold uppercase tracking-widest text-foreground">Add Voucher</h1>
+                    <p className="text-xs uppercase tracking-wider text-neutral-500 mt-1">
+                        Create a new discount code
+                    </p>
                 </div>
             </div>
 
@@ -65,7 +67,7 @@ export default function NewVoucherPage() {
             <form onSubmit={handleSubmit} className="max-w-2xl">
                 <div className="card space-y-6">
                     <div>
-                        <label className="label">Voucher Code *</label>
+                        <label className="label">Voucher Code</label>
                         <input
                             type="text"
                             required
@@ -78,7 +80,7 @@ export default function NewVoucherPage() {
 
                     <div className="grid grid-cols-2 gap-4">
                         <div>
-                            <label className="label">Discount Type *</label>
+                            <label className="label">Discount Type</label>
                             <select
                                 value={form.type}
                                 onChange={(e) => setForm({ ...form, type: e.target.value as 'percentage' | 'fixed' })}
@@ -90,14 +92,14 @@ export default function NewVoucherPage() {
                         </div>
                         <div>
                             <label className="label">
-                                Discount Value * {form.type === 'percentage' ? '(%)' : '(VND)'}
+                                Discount Value {form.type === 'percentage' ? '(%)' : '(VND)'}
                             </label>
                             <input
                                 type="number"
                                 required
                                 value={form.discount}
                                 onChange={(e) => setForm({ ...form, discount: e.target.value })}
-                                className="input"
+                                className="input font-mono"
                                 placeholder={form.type === 'percentage' ? '10' : '50000'}
                             />
                         </div>
@@ -110,7 +112,7 @@ export default function NewVoucherPage() {
                                 type="number"
                                 value={form.minOrder}
                                 onChange={(e) => setForm({ ...form, minOrder: e.target.value })}
-                                className="input"
+                                className="input font-mono"
                                 placeholder="0"
                             />
                         </div>
@@ -121,7 +123,7 @@ export default function NewVoucherPage() {
                                     type="number"
                                     value={form.maxDiscount}
                                     onChange={(e) => setForm({ ...form, maxDiscount: e.target.value })}
-                                    className="input"
+                                    className="input font-mono"
                                     placeholder="Optional"
                                 />
                             </div>
@@ -129,9 +131,9 @@ export default function NewVoucherPage() {
                     </div>
                 </div>
 
-                <div className="flex gap-4 mt-6">
+                <div className="flex gap-3 mt-6">
                     <button type="submit" disabled={saving} className="btn btn-primary">
-                        <Save size={16} />
+                        <Save size={14} />
                         {saving ? 'Saving...' : 'Save Voucher'}
                     </button>
                     <Link href="/vouchers" className="btn btn-outline">

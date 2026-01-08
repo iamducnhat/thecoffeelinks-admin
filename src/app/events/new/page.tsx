@@ -12,9 +12,6 @@ const bgOptions = [
     { value: 'bg-neutral-900 text-neutral-50', label: 'Dark' },
     { value: 'bg-background text-foreground border border-strong', label: 'Light with Border' },
     { value: 'bg-neutral-100 text-foreground border border-neutral-200', label: 'Gray' },
-    { value: 'bg-blue-600 text-white', label: 'Blue' },
-    { value: 'bg-green-600 text-white', label: 'Green' },
-    { value: 'bg-purple-600 text-white', label: 'Purple' },
 ];
 const iconOptions = ['Calendar', 'Tag', 'ArrowRight'];
 
@@ -60,24 +57,30 @@ export default function NewEventPage() {
         <div>
             {/* Header */}
             <div className="flex items-center gap-4 mb-8">
-                <Link href="/events" className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
-                    <ArrowLeft size={20} />
+                <Link href="/events" className="p-2 hover:bg-neutral-100 border border-transparent hover:border-border transition-all">
+                    <ArrowLeft size={18} />
                 </Link>
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-900">Add New Event</h1>
-                    <p className="text-gray-500 mt-1">Create a new carousel promotion</p>
+                    <h1 className="text-xl font-bold uppercase tracking-widest text-foreground">Add Event</h1>
+                    <p className="text-xs uppercase tracking-wider text-neutral-500 mt-1">
+                        Create a new carousel promotion
+                    </p>
                 </div>
             </div>
 
             {/* Preview */}
             <div className="mb-8">
-                <p className="text-sm font-medium text-gray-700 mb-3">Preview</p>
-                <div className={`${form.bg} p-6 max-w-md rounded-lg`}>
-                    <span className="text-xs font-bold uppercase tracking-wider opacity-80">
+                <p className="label mb-3">Preview</p>
+                <div className="bg-neutral-900 text-neutral-50 p-6 max-w-md">
+                    <span className="text-[10px] font-bold uppercase tracking-widest opacity-60">
                         {form.type}
                     </span>
-                    <h3 className="text-2xl font-bold mt-2">{form.title || 'Event Title'}</h3>
-                    <p className="text-sm opacity-80 mt-1">{form.subtitle || 'Event subtitle'}</p>
+                    <h3 className="text-xl font-bold uppercase tracking-wide mt-2">
+                        {form.title || 'Event Title'}
+                    </h3>
+                    <p className="text-xs opacity-60 mt-1 uppercase">
+                        {form.subtitle || 'Event subtitle'}
+                    </p>
                 </div>
             </div>
 
@@ -86,7 +89,7 @@ export default function NewEventPage() {
                 <div className="card space-y-6">
                     <div className="grid grid-cols-2 gap-4">
                         <div>
-                            <label className="label">Event Type *</label>
+                            <label className="label">Event Type</label>
                             <select
                                 value={form.type}
                                 onChange={(e) => setForm({ ...form, type: e.target.value })}
@@ -114,7 +117,7 @@ export default function NewEventPage() {
                     </div>
 
                     <div>
-                        <label className="label">Title *</label>
+                        <label className="label">Title</label>
                         <input
                             type="text"
                             required
@@ -126,7 +129,7 @@ export default function NewEventPage() {
                     </div>
 
                     <div>
-                        <label className="label">Subtitle *</label>
+                        <label className="label">Subtitle</label>
                         <input
                             type="text"
                             required
@@ -151,9 +154,9 @@ export default function NewEventPage() {
                     </div>
                 </div>
 
-                <div className="flex gap-4 mt-6">
+                <div className="flex gap-3 mt-6">
                     <button type="submit" disabled={saving} className="btn btn-primary">
-                        <Save size={16} />
+                        <Save size={14} />
                         {saving ? 'Saving...' : 'Save Event'}
                     </button>
                     <Link href="/events" className="btn btn-outline">

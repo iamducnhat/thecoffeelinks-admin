@@ -52,12 +52,14 @@ export default function NewRewardPage() {
         <div>
             {/* Header */}
             <div className="flex items-center gap-4 mb-8">
-                <Link href="/rewards" className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
-                    <ArrowLeft size={20} />
+                <Link href="/rewards" className="p-2 hover:bg-neutral-100 border border-transparent hover:border-border transition-all">
+                    <ArrowLeft size={18} />
                 </Link>
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-900">Add New Reward</h1>
-                    <p className="text-gray-500 mt-1">Create a new loyalty reward</p>
+                    <h1 className="text-xl font-bold uppercase tracking-widest text-foreground">Add Reward</h1>
+                    <p className="text-xs uppercase tracking-wider text-neutral-500 mt-1">
+                        Create a new loyalty reward
+                    </p>
                 </div>
             </div>
 
@@ -65,7 +67,7 @@ export default function NewRewardPage() {
             <form onSubmit={handleSubmit} className="max-w-2xl">
                 <div className="card space-y-6">
                     <div>
-                        <label className="label">Reward Name *</label>
+                        <label className="label">Reward Name</label>
                         <input
                             type="text"
                             required
@@ -77,7 +79,7 @@ export default function NewRewardPage() {
                     </div>
 
                     <div>
-                        <label className="label">Description *</label>
+                        <label className="label">Description</label>
                         <textarea
                             required
                             value={form.description}
@@ -90,18 +92,18 @@ export default function NewRewardPage() {
 
                     <div className="grid grid-cols-2 gap-4">
                         <div>
-                            <label className="label">Points Cost *</label>
+                            <label className="label">Points Cost</label>
                             <input
                                 type="number"
                                 required
                                 value={form.pointsCost}
                                 onChange={(e) => setForm({ ...form, pointsCost: e.target.value })}
-                                className="input"
+                                className="input font-mono"
                                 placeholder="50"
                             />
                         </div>
                         <div>
-                            <label className="label">Category *</label>
+                            <label className="label">Category</label>
                             <select
                                 value={form.category}
                                 onChange={(e) => setForm({ ...form, category: e.target.value })}
@@ -117,9 +119,9 @@ export default function NewRewardPage() {
                     </div>
                 </div>
 
-                <div className="flex gap-4 mt-6">
+                <div className="flex gap-3 mt-6">
                     <button type="submit" disabled={saving} className="btn btn-primary">
-                        <Save size={16} />
+                        <Save size={14} />
                         {saving ? 'Saving...' : 'Save Reward'}
                     </button>
                     <Link href="/rewards" className="btn btn-outline">

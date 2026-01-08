@@ -47,8 +47,8 @@ export default function RewardsPage() {
     };
 
     const getCategoryIcon = (category: string) => {
-        if (category === 'drink') return <Coffee size={18} className="text-blue-600" />;
-        return <Gift size={18} className="text-purple-600" />;
+        if (category === 'drink') return <Coffee size={16} className="text-primary" />;
+        return <Gift size={16} className="text-secondary" />;
     };
 
     return (
@@ -56,46 +56,58 @@ export default function RewardsPage() {
             {/* Header */}
             <div className="flex items-center justify-between mb-8">
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-900">Rewards</h1>
-                    <p className="text-gray-500 mt-1">Manage loyalty program rewards</p>
+                    <h1 className="text-xl font-bold uppercase tracking-widest text-foreground">Rewards</h1>
+                    <p className="text-xs uppercase tracking-wider text-neutral-500 mt-1">
+                        Manage loyalty program rewards
+                    </p>
                 </div>
                 <Link href="/rewards/new" className="btn btn-primary">
-                    <Plus size={16} />
+                    <Plus size={14} />
                     Add Reward
                 </Link>
             </div>
 
             {/* Rewards Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {loading ? (
-                    <div className="col-span-full p-8 text-center text-gray-500">Loading...</div>
+                    <div className="col-span-full p-8 text-center text-neutral-500 text-xs uppercase tracking-wider">
+                        Loading...
+                    </div>
                 ) : rewards.length === 0 ? (
-                    <div className="col-span-full p-8 text-center text-gray-500">No rewards found</div>
+                    <div className="col-span-full p-8 text-center text-neutral-500 text-xs uppercase tracking-wider">
+                        No rewards found
+                    </div>
                 ) : (
                     rewards.map((reward) => (
                         <div key={reward.id} className="card">
                             <div className="flex items-start justify-between mb-4">
-                                <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
+                                <div className="w-10 h-10 border border-border flex items-center justify-center">
                                     {getCategoryIcon(reward.category)}
                                 </div>
-                                <span className="badge badge-info font-mono">{reward.pointsCost} pts</span>
+                                <span className="font-mono font-bold text-sm text-primary">
+                                    {reward.pointsCost} pts
+                                </span>
                             </div>
-                            <h3 className="font-bold text-gray-900 mb-1">{reward.name}</h3>
-                            <p className="text-sm text-gray-500 mb-4">{reward.description}</p>
-                            <div className="flex items-center justify-between pt-4 border-t border-gray-200">
-                                <span className="text-xs text-gray-400 capitalize">{reward.category}</span>
-                                <div className="flex gap-2">
+                            <h3 className="font-bold text-sm uppercase tracking-wide text-foreground mb-1">
+                                {reward.name}
+                            </h3>
+                            <p className="text-xs text-neutral-500 mb-4">{reward.description}</p>
+                            <div className="flex items-center justify-between pt-4 border-t border-border">
+                                <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-400">
+                                    {reward.category}
+                                </span>
+                                <div className="flex gap-1">
                                     <Link
                                         href={`/rewards/${reward.id}/edit`}
-                                        className="p-1.5 text-gray-400 hover:text-blue-600 transition-colors"
+                                        className="p-1.5 text-neutral-400 hover:text-primary transition-colors"
                                     >
-                                        <Edit2 size={14} />
+                                        <Edit2 size={12} />
                                     </Link>
                                     <button
                                         onClick={() => handleDelete(reward.id)}
-                                        className="p-1.5 text-gray-400 hover:text-red-600 transition-colors"
+                                        className="p-1.5 text-neutral-400 hover:text-danger transition-colors"
                                     >
-                                        <Trash2 size={14} />
+                                        <Trash2 size={12} />
                                     </button>
                                 </div>
                             </div>
