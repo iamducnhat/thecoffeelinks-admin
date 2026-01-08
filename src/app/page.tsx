@@ -66,36 +66,36 @@ export default function Dashboard() {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid-stats mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
         {statCards.map((stat) => (
-          <Link key={stat.label} href={stat.href} className="stat-card">
-            <div className="stat-icon">
-              <stat.icon size={18} className="text-primary" />
+          <Link key={stat.label} href={stat.href} className="card hover:border-primary transition-colors group">
+            <div className="flex items-center justify-between mb-4">
+              <span className="text-label text-neutral-400 group-hover:text-primary transition-colors">{stat.label}</span>
+              <stat.icon size={20} className="text-neutral-300 group-hover:text-primary transition-colors" />
             </div>
-            <p className="stat-value">{loading ? '—' : stat.value}</p>
-            <p className="stat-label">{stat.label}</p>
+            <p className="text-3xl font-bold text-foreground tracking-tight">{loading ? '—' : stat.value}</p>
           </Link>
         ))}
       </div>
 
       {/* Quick Actions */}
       <div className="card">
-        <h2 className="section-title">Quick Actions</h2>
+        <h2 className="text-header mb-6 text-lg">Quick Actions</h2>
         <div className="flex flex-wrap gap-6">
           <Link href="/products/new" className="btn btn-primary">
-            <Coffee size={16} />
+            <Coffee size={18} strokeWidth={2} />
             Add Product
           </Link>
           <Link href="/events/new" className="btn btn-outline">
-            <Calendar size={16} />
+            <Calendar size={18} strokeWidth={2} />
             Add Event
           </Link>
           <Link href="/vouchers/new" className="btn btn-outline">
-            <Tag size={16} />
+            <Tag size={18} strokeWidth={2} />
             Add Voucher
           </Link>
           <Link href="/rewards/new" className="btn btn-outline">
-            <Gift size={16} />
+            <Gift size={18} strokeWidth={2} />
             Add Reward
           </Link>
         </div>

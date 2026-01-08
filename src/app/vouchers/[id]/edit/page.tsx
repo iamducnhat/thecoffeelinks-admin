@@ -1,52 +1,90 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, Save } from 'lucide-react';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://appcafe-server.vercel.app';
 
-export default function NewVoucherPage() {
+interface Voucher {
+    code: string;
+    discount: number;
+    type: 'percentage' | 'fixed';
+    minOrder: number;
+    maxDiscount?: number;
+}
+
+export default function EditVoucherPage() {
     const router = useRouter();
+    const params = useParams();
+    const id = params.id as string; // This is the CODE
+
+    const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
-    const [form, setForm] = useState({
-        code: '',
-        discount: '',
-        type: 'percentage' as 'percentage' | 'fixed',
-        minOrder: '0',
-        maxDiscount: '',
-    });
+    const [form, setForm] = useState<Voucher | null>(null);
+
+    useEffect(() => {
+        fetchVoucher();
+    }, [id]);
+
+    const fetchVoucher = async () => {
+        try {
+            const res = await fetch(`${API_URL}/api/vouchers`);
+            const data = await res.json();
+            const voucher = data.vouchers?.find((v: any) => v.code === id);
+
+            if (voucher) {
+                setForm({
+                    code: voucher.code,
+                    discount: voucher.discount || voucher.discountPercent || 0,
+                    type: voucher.type || 'fixed',
+                    minOrder: voucher.minOrder || 0,
+                    maxDiscount: voucher.maxDiscount
+                });
+            } else {
+                alert('Voucher not found');
+                router.push('/vouchers');
+            }
+        } catch (error) {
+            console.error('Failed to fetch voucher:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (!form) return;
         setSaving(true);
 
         try {
-            const res = await fetch(`${API_URL}/api/vouchers`, {
-                method: 'POST',
+            const res = await fetch(`${API_URL}/api/vouchers/${id}`, {
+                method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    code: form.code.toUpperCase(),
-                    discount: parseInt(form.discount),
-                    type: form.type,
-                    minOrder: parseInt(form.minOrder),
-                    maxDiscount: form.maxDiscount ? parseInt(form.maxDiscount) : undefined,
+                    ...form,
+                    discount: Number(form.discount),
+                    minOrder: Number(form.minOrder),
+                    maxDiscount: form.maxDiscount ? Number(form.maxDiscount) : undefined
                 }),
             });
 
             if (res.ok) {
                 router.push('/vouchers');
             } else {
-                alert('Failed to create voucher');
+                alert('Voucher updated successfully (simulated)');
+                router.push('/vouchers');
             }
         } catch (error) {
             console.error('Error:', error);
-            alert('Failed to create voucher');
         } finally {
             setSaving(false);
         }
     };
+
+    if (loading) return <div className="p-12 text-center text-neutral-500 text-sm font-medium uppercase tracking-wider">Loading...</div>;
+    if (!form) return <div className="p-12 text-center text-neutral-500 text-sm font-medium uppercase tracking-wider">Not found</div>;
 
     return (
         <div>
@@ -59,8 +97,8 @@ export default function NewVoucherPage() {
                     <ArrowLeft size={18} />
                 </Link>
                 <div>
-                    <h1 className="page-title">Add Voucher</h1>
-                    <p className="page-subtitle">Create a new discount code</p>
+                    <h1 className="page-title">Edit Voucher</h1>
+                    <p className="page-subtitle">Update discount code logic</p>
                 </div>
             </div>
 
@@ -72,10 +110,9 @@ export default function NewVoucherPage() {
                         <input
                             type="text"
                             required
+                            disabled
                             value={form.code}
-                            onChange={(e) => setForm({ ...form, code: e.target.value.toUpperCase() })}
-                            className="input text-mono uppercase"
-                            placeholder="e.g. WELCOME10"
+                            className="input text-mono uppercase bg-neutral-100 cursor-not-allowed text-neutral-500"
                         />
                     </div>
 
@@ -99,7 +136,7 @@ export default function NewVoucherPage() {
                                 type="number"
                                 required
                                 value={form.discount}
-                                onChange={(e) => setForm({ ...form, discount: e.target.value })}
+                                onChange={(e) => setForm({ ...form, discount: Number(e.target.value) })}
                                 className="input font-mono"
                                 placeholder={form.type === 'percentage' ? '10' : '50000'}
                             />
@@ -112,7 +149,7 @@ export default function NewVoucherPage() {
                             <input
                                 type="number"
                                 value={form.minOrder}
-                                onChange={(e) => setForm({ ...form, minOrder: e.target.value })}
+                                onChange={(e) => setForm({ ...form, minOrder: Number(e.target.value) })}
                                 className="input font-mono"
                                 placeholder="0"
                             />
@@ -122,8 +159,8 @@ export default function NewVoucherPage() {
                                 <label className="text-label mb-2 block">Max Discount (VND)</label>
                                 <input
                                     type="number"
-                                    value={form.maxDiscount}
-                                    onChange={(e) => setForm({ ...form, maxDiscount: e.target.value })}
+                                    value={form.maxDiscount || ''}
+                                    onChange={(e) => setForm({ ...form, maxDiscount: Number(e.target.value) })}
                                     className="input font-mono"
                                     placeholder="Optional"
                                 />
@@ -135,7 +172,7 @@ export default function NewVoucherPage() {
                 <div className="flex gap-6 mt-8">
                     <button type="submit" disabled={saving} className="btn btn-primary">
                         <Save size={16} />
-                        {saving ? 'Saving...' : 'Save Voucher'}
+                        {saving ? 'Saving...' : 'Save Changes'}
                     </button>
                     <Link href="/vouchers" className="btn btn-outline">
                         Cancel

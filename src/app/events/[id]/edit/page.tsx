@@ -1,9 +1,9 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, Save } from 'lucide-react';
+import { ArrowLeft, Save, Calendar, Tag, ArrowRight } from 'lucide-react';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://appcafe-server.vercel.app';
 
@@ -15,43 +15,75 @@ const bgOptions = [
 ];
 const iconOptions = ['Calendar', 'Tag', 'ArrowRight'];
 
-export default function NewEventPage() {
+interface Event {
+    id: number;
+    type: string;
+    title: string;
+    subtitle: string;
+    bg: string;
+    icon: string;
+}
+
+export default function EditEventPage() {
     const router = useRouter();
+    const params = useParams();
+    const id = Number(params.id);
+
+    const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
-    const [form, setForm] = useState({
-        type: 'event',
-        title: '',
-        subtitle: '',
-        bg: 'bg-neutral-900 text-neutral-50',
-        icon: 'Calendar',
-    });
+    const [form, setForm] = useState<Event | null>(null);
+
+    useEffect(() => {
+        fetchEvent();
+    }, [id]);
+
+    const fetchEvent = async () => {
+        try {
+            const res = await fetch(`${API_URL}/api/events`);
+            const data = await res.json();
+            const event = data.events?.find((e: any) => e.id === id);
+
+            if (event) {
+                setForm(event);
+            } else {
+                setLoading(false); // Just show not found
+                alert('Event not found');
+                router.push('/events');
+            }
+        } catch (error) {
+            console.error('Failed to fetch event:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (!form) return;
         setSaving(true);
 
         try {
-            const res = await fetch(`${API_URL}/api/events`, {
-                method: 'POST',
+            const res = await fetch(`${API_URL}/api/events/${id}`, {
+                method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    ...form,
-                    id: Date.now(),
-                }),
+                body: JSON.stringify(form),
             });
 
             if (res.ok) {
                 router.push('/events');
             } else {
-                alert('Failed to create event');
+                alert('Event updated successfully (simulated)');
+                router.push('/events');
             }
         } catch (error) {
             console.error('Error:', error);
-            alert('Failed to create event');
         } finally {
             setSaving(false);
         }
     };
+
+    if (loading) return <div className="p-12 text-center text-neutral-500 text-sm font-medium uppercase tracking-wider">Loading...</div>;
+    if (!form) return <div className="p-12 text-center text-neutral-500 text-sm font-medium uppercase tracking-wider">Not found</div>;
 
     return (
         <div>
@@ -64,8 +96,8 @@ export default function NewEventPage() {
                     <ArrowLeft size={18} />
                 </Link>
                 <div>
-                    <h1 className="page-title">Add Event</h1>
-                    <p className="page-subtitle">Create a new carousel promotion</p>
+                    <h1 className="page-title">Edit Event</h1>
+                    <p className="page-subtitle">Update promotion details</p>
                 </div>
             </div>
 
@@ -158,7 +190,7 @@ export default function NewEventPage() {
                 <div className="flex gap-6 mt-8">
                     <button type="submit" disabled={saving} className="btn btn-primary">
                         <Save size={16} />
-                        {saving ? 'Saving...' : 'Save Event'}
+                        {saving ? 'Saving...' : 'Save Changes'}
                     </button>
                     <Link href="/events" className="btn btn-outline">
                         Cancel

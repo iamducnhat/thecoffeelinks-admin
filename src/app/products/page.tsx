@@ -108,9 +108,9 @@ export default function ProductsPage() {
             {/* Products Table */}
             <div className="card p-0 overflow-hidden">
                 {loading ? (
-                    <div className="loading-state">Loading products...</div>
+                    <div className="p-12 text-center text-neutral-500 text-sm font-medium uppercase tracking-wider">Loading products...</div>
                 ) : filteredProducts.length === 0 ? (
-                    <div className="empty-state">No products found</div>
+                    <div className="p-12 text-center text-neutral-500 text-sm font-medium uppercase tracking-wider">No products found</div>
                 ) : (
                     <table className="table">
                         <thead>
@@ -127,24 +127,24 @@ export default function ProductsPage() {
                                 <tr key={product.id}>
                                     <td>
                                         <div className="flex items-center gap-4">
-                                            <div className="w-10 h-10 bg-neutral-100 border border-border flex items-center justify-center flex-shrink-0">
-                                                <Coffee size={16} className="text-neutral-400" />
+                                            <div className="w-12 h-12 bg-neutral-100 border border-border flex items-center justify-center flex-shrink-0">
+                                                <Coffee size={20} className="text-neutral-400" strokeWidth={1.5} />
                                             </div>
                                             <div className="min-w-0">
-                                                <p className="font-semibold text-sm text-foreground truncate">
+                                                <p className="font-bold text-sm text-foreground truncate uppercase tracking-tight">
                                                     {product.name}
                                                 </p>
-                                                <p className="text-xs text-neutral-500 truncate mt-0.5">
+                                                <p className="text-xs text-neutral-500 truncate mt-1 font-medium">
                                                     {product.description}
                                                 </p>
                                             </div>
                                         </div>
                                     </td>
                                     <td>
-                                        <span className="badge badge-info">{product.category}</span>
+                                        <span className="badge badge-neutral">{product.category}</span>
                                     </td>
                                     <td>
-                                        <span className="text-mono text-sm font-medium">
+                                        <span className="font-mono text-sm font-bold tracking-tight">
                                             {formatPrice(product.basePrice)}
                                         </span>
                                     </td>
@@ -155,18 +155,18 @@ export default function ProductsPage() {
                                         </div>
                                     </td>
                                     <td>
-                                        <div className="flex items-center justify-end gap-1">
+                                        <div className="flex items-center justify-end gap-2">
                                             <Link
                                                 href={`/products/${product.id}/edit`}
-                                                className="action-btn"
+                                                className="btn btn-sm btn-outline px-2 border-neutral-200 hover:border-primary text-neutral-500 hover:text-primary"
                                             >
-                                                <Edit2 size={15} />
+                                                <Edit2 size={14} />
                                             </Link>
                                             <button
                                                 onClick={() => handleDelete(product.id)}
-                                                className="action-btn action-btn-danger"
+                                                className="btn btn-sm btn-outline px-2 border-neutral-200 hover:border-danger text-neutral-500 hover:text-danger hover:bg-red-50"
                                             >
-                                                <Trash2 size={15} />
+                                                <Trash2 size={14} />
                                             </button>
                                         </div>
                                     </td>

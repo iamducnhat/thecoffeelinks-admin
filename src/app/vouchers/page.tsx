@@ -69,9 +69,9 @@ export default function VouchersPage() {
             {/* Vouchers Table */}
             <div className="card p-0 overflow-hidden">
                 {loading ? (
-                    <div className="loading-state">Loading vouchers...</div>
+                    <div className="p-12 text-center text-neutral-500 text-sm font-medium uppercase tracking-wider">Loading vouchers...</div>
                 ) : vouchers.length === 0 ? (
-                    <div className="empty-state">No vouchers found</div>
+                    <div className="p-12 text-center text-neutral-500 text-sm font-medium uppercase tracking-wider">No vouchers found</div>
                 ) : (
                     <table className="table">
                         <thead>
@@ -88,16 +88,16 @@ export default function VouchersPage() {
                                 <tr key={voucher.code}>
                                     <td>
                                         <div className="flex items-center gap-4">
-                                            <div className="w-10 h-10 bg-primary/10 border border-primary/20 flex items-center justify-center flex-shrink-0">
-                                                <Tag size={16} className="text-primary" />
+                                            <div className="w-10 h-10 bg-neutral-100 border border-neutral-200 flex items-center justify-center flex-shrink-0 text-primary">
+                                                <Tag size={18} strokeWidth={2} />
                                             </div>
-                                            <span className="text-mono font-bold text-sm text-foreground">
+                                            <span className="font-mono font-bold text-sm text-foreground tracking-tight">
                                                 {voucher.code}
                                             </span>
                                         </div>
                                     </td>
                                     <td>
-                                        <span className="text-mono font-bold text-primary">
+                                        <span className="font-mono font-bold text-primary tracking-tight">
                                             {voucher.discountPercent
                                                 ? `${voucher.discountPercent}%`
                                                 : voucher.discount
@@ -106,29 +106,29 @@ export default function VouchersPage() {
                                         </span>
                                     </td>
                                     <td>
-                                        <span className="text-mono text-sm">
+                                        <span className="font-mono text-sm tracking-tight text-neutral-600">
                                             {formatPrice(voucher.minOrder)}
                                         </span>
                                     </td>
                                     <td>
                                         <span className="badge badge-success">
-                                            <Check size={10} />
+                                            <Check size={10} strokeWidth={3} className="mr-1" />
                                             Active
                                         </span>
                                     </td>
                                     <td>
-                                        <div className="flex items-center justify-end gap-1">
+                                        <div className="flex items-center justify-end gap-2">
                                             <Link
                                                 href={`/vouchers/${voucher.code}/edit`}
-                                                className="action-btn"
+                                                className="btn btn-sm btn-outline px-2 border-neutral-200 hover:border-primary text-neutral-500 hover:text-primary"
                                             >
-                                                <Edit2 size={15} />
+                                                <Edit2 size={14} />
                                             </Link>
                                             <button
                                                 onClick={() => handleDelete(voucher.code)}
-                                                className="action-btn action-btn-danger"
+                                                className="btn btn-sm btn-outline px-2 border-neutral-200 hover:border-danger text-neutral-500 hover:text-danger hover:bg-red-50"
                                             >
-                                                <Trash2 size={15} />
+                                                <Trash2 size={14} />
                                             </button>
                                         </div>
                                     </td>

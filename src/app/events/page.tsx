@@ -61,49 +61,49 @@ export default function EventsPage() {
             </div>
 
             {/* Events Grid */}
-            <div className="grid-cards">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {loading ? (
                     <div className="col-span-full">
-                        <div className="card">
-                            <div className="loading-state">Loading events...</div>
+                        <div className="card p-12 text-center text-neutral-500 text-sm font-medium uppercase tracking-wider">
+                            Loading events...
                         </div>
                     </div>
                 ) : events.length === 0 ? (
                     <div className="col-span-full">
-                        <div className="card">
-                            <div className="empty-state">No events found</div>
+                        <div className="card p-12 text-center text-neutral-500 text-sm font-medium uppercase tracking-wider">
+                            No events found
                         </div>
                     </div>
                 ) : (
                     events.map((event) => (
-                        <div key={event.id} className="card p-0 overflow-hidden">
-                            <div className="bg-neutral-900 text-neutral-50 p-5">
-                                <div className="flex items-center justify-between mb-3">
-                                    <span className="text-[9px] font-bold uppercase tracking-[0.15em] opacity-50">
+                        <div key={event.id} className="card p-0 overflow-hidden group hover:border-primary transition-colors">
+                            <div className="bg-neutral-800 text-neutral-50 p-6">
+                                <div className="flex items-center justify-between mb-4">
+                                    <span className="text-[10px] font-bold uppercase tracking-[0.2em] opacity-60">
                                         {event.type}
                                     </span>
-                                    <Calendar size={14} className="opacity-40" />
+                                    <Calendar size={16} className="opacity-40" />
                                 </div>
-                                <h3 className="text-base font-bold uppercase tracking-wide leading-tight">
+                                <h3 className="text-xl font-bold uppercase tracking-wide leading-none mb-2">
                                     {event.title}
                                 </h3>
-                                <p className="text-[11px] opacity-50 mt-1.5 uppercase tracking-wide">
+                                <p className="text-xs opacity-60 uppercase tracking-widest font-medium">
                                     {event.subtitle}
                                 </p>
                             </div>
-                            <div className="flex items-center justify-end gap-2 p-4">
+                            <div className="flex items-center justify-end gap-3 p-4 bg-background border-t border-border">
                                 <Link
                                     href={`/events/${event.id}/edit`}
-                                    className="btn btn-sm btn-outline"
+                                    className="btn btn-sm btn-outline border-neutral-200 hover:border-primary text-neutral-600 hover:text-primary"
                                 >
-                                    <Edit2 size={12} />
+                                    <Edit2 size={14} />
                                     Edit
                                 </Link>
                                 <button
                                     onClick={() => handleDelete(event.id)}
-                                    className="btn btn-sm btn-danger"
+                                    className="btn btn-sm btn-outline border-neutral-200 hover:border-danger text-neutral-600 hover:text-danger hover:bg-red-50"
                                 >
-                                    <Trash2 size={12} />
+                                    <Trash2 size={14} />
                                     Delete
                                 </button>
                             </div>

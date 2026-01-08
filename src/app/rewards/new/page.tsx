@@ -67,8 +67,8 @@ export default function NewRewardPage() {
             {/* Form */}
             <form onSubmit={handleSubmit} className="max-w-2xl">
                 <div className="card">
-                    <div className="form-group">
-                        <label className="label">Reward Name</label>
+                    <div className="mb-6">
+                        <label className="text-label mb-2 block">Reward Name</label>
                         <input
                             type="text"
                             required
@@ -79,8 +79,8 @@ export default function NewRewardPage() {
                         />
                     </div>
 
-                    <div className="form-group">
-                        <label className="label">Description</label>
+                    <div className="mb-6">
+                        <label className="text-label mb-2 block">Description</label>
                         <textarea
                             required
                             value={form.description}
@@ -91,20 +91,20 @@ export default function NewRewardPage() {
                         />
                     </div>
 
-                    <div className="form-row">
+                    <div className="grid grid-cols-2 gap-6">
                         <div>
-                            <label className="label">Points Cost</label>
+                            <label className="text-label mb-2 block">Points Cost</label>
                             <input
                                 type="number"
                                 required
                                 value={form.pointsCost}
                                 onChange={(e) => setForm({ ...form, pointsCost: e.target.value })}
-                                className="input text-mono"
+                                className="input font-mono"
                                 placeholder="50"
                             />
                         </div>
                         <div>
-                            <label className="label">Category</label>
+                            <label className="text-label mb-2 block">Category</label>
                             <select
                                 value={form.category}
                                 onChange={(e) => setForm({ ...form, category: e.target.value })}
