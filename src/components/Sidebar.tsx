@@ -25,18 +25,18 @@ export default function Sidebar() {
     return (
         <aside className="w-60 bg-background border-r border-border min-h-screen flex flex-col">
             {/* Logo */}
-            <div className="px-8 py-8 border-b border-border">
+            <div className="px-8 py-10 border-b border-border">
                 <h1 className="text-2xl font-bold uppercase tracking-[0.2em] text-foreground leading-tight">
                     Coffee Links
                 </h1>
-                <p className="text-[11px] uppercase tracking-[0.15em] text-neutral-500 mt-1 font-bold">
+                <p className="text-xs uppercase tracking-[0.15em] text-neutral-500 mt-3 font-bold">
                     Admin Panel
                 </p>
             </div>
 
             {/* Navigation */}
-            <nav className="flex-1 py-6 px-4">
-                <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-neutral-500 mb-4 px-4">
+            <nav className="flex-1 py-8 px-6">
+                <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-neutral-500 mb-6 px-4">
                     Menu
                 </p>
                 <ul className="space-y-1">
