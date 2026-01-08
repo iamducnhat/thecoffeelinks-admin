@@ -156,7 +156,7 @@ body {
 
 /* Layout Utilities */
 .page-header {
-  @apply flex flex-col gap-1 mb-6 pb-4 border-b border-border;
+  @apply mb-6 pb-4 border-b border-border;
 }
 
 .page-title {
