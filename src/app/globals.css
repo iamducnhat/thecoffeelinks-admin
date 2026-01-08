@@ -107,9 +107,9 @@ a {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  padding: 16px 28px;
-  font-size: 13px;
+  gap: 16px;
+  padding: 20px 32px;
+  font-size: 14px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -117,7 +117,7 @@ a {
   cursor: pointer;
   transition: all 0.15s ease;
   white-space: nowrap;
-  min-height: 52px;
+  min-height: 56px;
 }
 
 .btn-sm {
@@ -321,8 +321,8 @@ select.input {
 }
 
 .page-title {
-  font-size: 1.5rem;
-  /* 24px */
+  font-size: 1.875rem;
+  /* 30px */
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.15em;
@@ -340,13 +340,13 @@ select.input {
 }
 
 .section-title {
-  font-size: 0.75rem;
-  /* 12px */
+  font-size: 0.875rem;
+  /* 14px */
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--foreground);
-  margin-bottom: var(--space-4);
+  margin-bottom: 24px;
 }
 
 /* ============================================
