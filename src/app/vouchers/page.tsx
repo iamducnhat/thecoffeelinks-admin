@@ -55,12 +55,10 @@ export default function VouchersPage() {
     return (
         <div>
             {/* Header */}
-            <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center justify-between page-header">
                 <div>
-                    <h1 className="text-xl font-bold uppercase tracking-widest text-foreground">Vouchers</h1>
-                    <p className="text-xs uppercase tracking-wider text-neutral-500 mt-1">
-                        Manage discount codes
-                    </p>
+                    <h1 className="page-title">Vouchers</h1>
+                    <p className="page-subtitle">Manage discount codes</p>
                 </div>
                 <Link href="/vouchers/new" className="btn btn-primary">
                     <Plus size={14} />
@@ -71,13 +69,9 @@ export default function VouchersPage() {
             {/* Vouchers Table */}
             <div className="card p-0 overflow-hidden">
                 {loading ? (
-                    <div className="p-8 text-center text-neutral-500 text-xs uppercase tracking-wider">
-                        Loading...
-                    </div>
+                    <div className="loading-state">Loading vouchers...</div>
                 ) : vouchers.length === 0 ? (
-                    <div className="p-8 text-center text-neutral-500 text-xs uppercase tracking-wider">
-                        No vouchers found
-                    </div>
+                    <div className="empty-state">No vouchers found</div>
                 ) : (
                     <table className="table">
                         <thead>
@@ -86,51 +80,55 @@ export default function VouchersPage() {
                                 <th>Discount</th>
                                 <th>Min Order</th>
                                 <th>Status</th>
-                                <th className="text-right">Actions</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             {vouchers.map((voucher) => (
                                 <tr key={voucher.code}>
                                     <td>
-                                        <div className="flex items-center gap-3">
-                                            <div className="w-10 h-10 bg-primary/10 border border-primary/20 flex items-center justify-center">
+                                        <div className="flex items-center gap-4">
+                                            <div className="w-10 h-10 bg-primary/10 border border-primary/20 flex items-center justify-center flex-shrink-0">
                                                 <Tag size={16} className="text-primary" />
                                             </div>
-                                            <span className="font-mono font-bold text-sm uppercase tracking-wide text-foreground">
+                                            <span className="text-mono font-bold text-sm text-foreground">
                                                 {voucher.code}
                                             </span>
                                         </div>
                                     </td>
                                     <td>
-                                        <span className="font-mono font-bold text-primary">
+                                        <span className="text-mono font-bold text-primary">
                                             {voucher.discountPercent
                                                 ? `${voucher.discountPercent}%`
                                                 : voucher.discount
                                                     ? formatPrice(voucher.discount)
-                                                    : '-'}
+                                                    : '—'}
                                         </span>
                                     </td>
-                                    <td className="font-mono text-sm">{formatPrice(voucher.minOrder)}</td>
+                                    <td>
+                                        <span className="text-mono text-sm">
+                                            {formatPrice(voucher.minOrder)}
+                                        </span>
+                                    </td>
                                     <td>
                                         <span className="badge badge-success">
-                                            <Check size={10} className="mr-1" />
+                                            <Check size={10} />
                                             Active
                                         </span>
                                     </td>
                                     <td>
-                                        <div className="flex items-center justify-end gap-2">
+                                        <div className="flex items-center justify-end gap-1">
                                             <Link
                                                 href={`/vouchers/${voucher.code}/edit`}
-                                                className="p-2 text-neutral-400 hover:text-primary transition-colors"
+                                                className="action-btn"
                                             >
-                                                <Edit2 size={14} />
+                                                <Edit2 size={15} />
                                             </Link>
                                             <button
                                                 onClick={() => handleDelete(voucher.code)}
-                                                className="p-2 text-neutral-400 hover:text-danger transition-colors"
+                                                className="action-btn action-btn-danger"
                                             >
-                                                <Trash2 size={14} />
+                                                <Trash2 size={15} />
                                             </button>
                                         </div>
                                     </td>

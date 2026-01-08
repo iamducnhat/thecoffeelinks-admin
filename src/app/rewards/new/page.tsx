@@ -51,22 +51,23 @@ export default function NewRewardPage() {
     return (
         <div>
             {/* Header */}
-            <div className="flex items-center gap-4 mb-8">
-                <Link href="/rewards" className="p-2 hover:bg-neutral-100 border border-transparent hover:border-border transition-all">
+            <div className="flex items-center gap-5 page-header">
+                <Link
+                    href="/rewards"
+                    className="w-10 h-10 flex items-center justify-center border border-border hover:border-primary hover:text-primary transition-all"
+                >
                     <ArrowLeft size={18} />
                 </Link>
                 <div>
-                    <h1 className="text-xl font-bold uppercase tracking-widest text-foreground">Add Reward</h1>
-                    <p className="text-xs uppercase tracking-wider text-neutral-500 mt-1">
-                        Create a new loyalty reward
-                    </p>
+                    <h1 className="page-title">Add Reward</h1>
+                    <p className="page-subtitle">Create a new loyalty reward</p>
                 </div>
             </div>
 
             {/* Form */}
             <form onSubmit={handleSubmit} className="max-w-2xl">
-                <div className="card space-y-6">
-                    <div>
+                <div className="card">
+                    <div className="form-group">
                         <label className="label">Reward Name</label>
                         <input
                             type="text"
@@ -78,7 +79,7 @@ export default function NewRewardPage() {
                         />
                     </div>
 
-                    <div>
+                    <div className="form-group">
                         <label className="label">Description</label>
                         <textarea
                             required
@@ -90,7 +91,7 @@ export default function NewRewardPage() {
                         />
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="form-row">
                         <div>
                             <label className="label">Points Cost</label>
                             <input
@@ -98,7 +99,7 @@ export default function NewRewardPage() {
                                 required
                                 value={form.pointsCost}
                                 onChange={(e) => setForm({ ...form, pointsCost: e.target.value })}
-                                className="input font-mono"
+                                className="input text-mono"
                                 placeholder="50"
                             />
                         </div>

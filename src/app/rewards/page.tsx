@@ -54,12 +54,10 @@ export default function RewardsPage() {
     return (
         <div>
             {/* Header */}
-            <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center justify-between page-header">
                 <div>
-                    <h1 className="text-xl font-bold uppercase tracking-widest text-foreground">Rewards</h1>
-                    <p className="text-xs uppercase tracking-wider text-neutral-500 mt-1">
-                        Manage loyalty program rewards
-                    </p>
+                    <h1 className="page-title">Rewards</h1>
+                    <p className="page-subtitle">Manage loyalty program rewards</p>
                 </div>
                 <Link href="/rewards/new" className="btn btn-primary">
                     <Plus size={14} />
@@ -68,14 +66,18 @@ export default function RewardsPage() {
             </div>
 
             {/* Rewards Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid-cards">
                 {loading ? (
-                    <div className="col-span-full p-8 text-center text-neutral-500 text-xs uppercase tracking-wider">
-                        Loading...
+                    <div className="col-span-full">
+                        <div className="card">
+                            <div className="loading-state">Loading rewards...</div>
+                        </div>
                     </div>
                 ) : rewards.length === 0 ? (
-                    <div className="col-span-full p-8 text-center text-neutral-500 text-xs uppercase tracking-wider">
-                        No rewards found
+                    <div className="col-span-full">
+                        <div className="card">
+                            <div className="empty-state">No rewards found</div>
+                        </div>
                     </div>
                 ) : (
                     rewards.map((reward) => (
@@ -84,30 +86,32 @@ export default function RewardsPage() {
                                 <div className="w-10 h-10 border border-border flex items-center justify-center">
                                     {getCategoryIcon(reward.category)}
                                 </div>
-                                <span className="font-mono font-bold text-sm text-primary">
+                                <span className="text-mono font-bold text-sm text-primary">
                                     {reward.pointsCost} pts
                                 </span>
                             </div>
-                            <h3 className="font-bold text-sm uppercase tracking-wide text-foreground mb-1">
+                            <h3 className="font-semibold text-sm text-foreground mb-1">
                                 {reward.name}
                             </h3>
-                            <p className="text-xs text-neutral-500 mb-4">{reward.description}</p>
+                            <p className="text-xs text-neutral-500 leading-relaxed mb-4">
+                                {reward.description}
+                            </p>
                             <div className="flex items-center justify-between pt-4 border-t border-border">
-                                <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-400">
+                                <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-neutral-400">
                                     {reward.category}
                                 </span>
                                 <div className="flex gap-1">
                                     <Link
                                         href={`/rewards/${reward.id}/edit`}
-                                        className="p-1.5 text-neutral-400 hover:text-primary transition-colors"
+                                        className="action-btn"
                                     >
-                                        <Edit2 size={12} />
+                                        <Edit2 size={14} />
                                     </Link>
                                     <button
                                         onClick={() => handleDelete(reward.id)}
-                                        className="p-1.5 text-neutral-400 hover:text-danger transition-colors"
+                                        className="action-btn action-btn-danger"
                                     >
-                                        <Trash2 size={12} />
+                                        <Trash2 size={14} />
                                     </button>
                                 </div>
                             </div>

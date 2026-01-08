@@ -49,12 +49,10 @@ export default function EventsPage() {
     return (
         <div>
             {/* Header */}
-            <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center justify-between page-header">
                 <div>
-                    <h1 className="text-xl font-bold uppercase tracking-widest text-foreground">Events</h1>
-                    <p className="text-xs uppercase tracking-wider text-neutral-500 mt-1">
-                        Manage carousel promotions
-                    </p>
+                    <h1 className="page-title">Events</h1>
+                    <p className="page-subtitle">Manage carousel promotions</p>
                 </div>
                 <Link href="/events/new" className="btn btn-primary">
                     <Plus size={14} />
@@ -63,39 +61,47 @@ export default function EventsPage() {
             </div>
 
             {/* Events Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid-cards">
                 {loading ? (
-                    <div className="col-span-full p-8 text-center text-neutral-500 text-xs uppercase tracking-wider">
-                        Loading...
+                    <div className="col-span-full">
+                        <div className="card">
+                            <div className="loading-state">Loading events...</div>
+                        </div>
                     </div>
                 ) : events.length === 0 ? (
-                    <div className="col-span-full p-8 text-center text-neutral-500 text-xs uppercase tracking-wider">
-                        No events found
+                    <div className="col-span-full">
+                        <div className="card">
+                            <div className="empty-state">No events found</div>
+                        </div>
                     </div>
                 ) : (
                     events.map((event) => (
                         <div key={event.id} className="card p-0 overflow-hidden">
-                            <div className="bg-neutral-900 text-neutral-50 p-6">
-                                <div className="flex items-center justify-between mb-4">
-                                    <span className="text-[10px] font-bold uppercase tracking-widest opacity-60">
+                            <div className="bg-neutral-900 text-neutral-50 p-5">
+                                <div className="flex items-center justify-between mb-3">
+                                    <span className="text-[9px] font-bold uppercase tracking-[0.15em] opacity-50">
                                         {event.type}
                                     </span>
-                                    <Calendar size={16} className="opacity-60" />
+                                    <Calendar size={14} className="opacity-40" />
                                 </div>
-                                <h3 className="text-lg font-bold uppercase tracking-wide">{event.title}</h3>
-                                <p className="text-xs opacity-60 mt-1 uppercase">{event.subtitle}</p>
+                                <h3 className="text-base font-bold uppercase tracking-wide leading-tight">
+                                    {event.title}
+                                </h3>
+                                <p className="text-[11px] opacity-50 mt-1.5 uppercase tracking-wide">
+                                    {event.subtitle}
+                                </p>
                             </div>
-                            <div className="flex items-center justify-end gap-2 p-4 border-t border-border">
+                            <div className="flex items-center justify-end gap-2 p-4">
                                 <Link
                                     href={`/events/${event.id}/edit`}
-                                    className="btn btn-outline text-xs py-2"
+                                    className="btn btn-sm btn-outline"
                                 >
                                     <Edit2 size={12} />
                                     Edit
                                 </Link>
                                 <button
                                     onClick={() => handleDelete(event.id)}
-                                    className="btn btn-danger text-xs py-2"
+                                    className="btn btn-sm btn-danger"
                                 >
                                     <Trash2 size={12} />
                                     Delete

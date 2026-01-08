@@ -65,12 +65,10 @@ export default function ProductsPage() {
     return (
         <div>
             {/* Header */}
-            <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center justify-between page-header">
                 <div>
-                    <h1 className="text-xl font-bold uppercase tracking-widest text-foreground">Products</h1>
-                    <p className="text-xs uppercase tracking-wider text-neutral-500 mt-1">
-                        Manage your menu items
-                    </p>
+                    <h1 className="page-title">Products</h1>
+                    <p className="page-subtitle">Manage your menu items</p>
                 </div>
                 <Link href="/products/new" className="btn btn-primary">
                     <Plus size={14} />
@@ -81,22 +79,22 @@ export default function ProductsPage() {
             {/* Filters */}
             <div className="card mb-6">
                 <div className="flex flex-wrap gap-4">
-                    <div className="flex-1 min-w-[200px]">
+                    <div className="flex-1 min-w-[240px]">
                         <div className="relative">
-                            <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" />
+                            <Search size={15} className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400" />
                             <input
                                 type="text"
                                 placeholder="Search products..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="input pl-10"
+                                className="input pl-11"
                             />
                         </div>
                     </div>
                     <select
                         value={selectedCategory}
                         onChange={(e) => setSelectedCategory(e.target.value)}
-                        className="input w-auto"
+                        className="input w-auto min-w-[160px]"
                     >
                         {categories.map(cat => (
                             <option key={cat} value={cat}>
@@ -110,13 +108,9 @@ export default function ProductsPage() {
             {/* Products Table */}
             <div className="card p-0 overflow-hidden">
                 {loading ? (
-                    <div className="p-8 text-center text-neutral-500 text-xs uppercase tracking-wider">
-                        Loading...
-                    </div>
+                    <div className="loading-state">Loading products...</div>
                 ) : filteredProducts.length === 0 ? (
-                    <div className="p-8 text-center text-neutral-500 text-xs uppercase tracking-wider">
-                        No products found
-                    </div>
+                    <div className="empty-state">No products found</div>
                 ) : (
                     <table className="table">
                         <thead>
@@ -125,50 +119,54 @@ export default function ProductsPage() {
                                 <th>Category</th>
                                 <th>Price</th>
                                 <th>Status</th>
-                                <th className="text-right">Actions</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             {filteredProducts.map((product) => (
                                 <tr key={product.id}>
                                     <td>
-                                        <div className="flex items-center gap-3">
-                                            <div className="w-10 h-10 bg-neutral-100 border border-border flex items-center justify-center">
+                                        <div className="flex items-center gap-4">
+                                            <div className="w-10 h-10 bg-neutral-100 border border-border flex items-center justify-center flex-shrink-0">
                                                 <Coffee size={16} className="text-neutral-400" />
                                             </div>
-                                            <div>
-                                                <p className="font-bold text-sm uppercase tracking-wide text-foreground">
+                                            <div className="min-w-0">
+                                                <p className="font-semibold text-sm text-foreground truncate">
                                                     {product.name}
                                                 </p>
-                                                <p className="text-xs text-neutral-500 line-clamp-1 mt-0.5">
+                                                <p className="text-xs text-neutral-500 truncate mt-0.5">
                                                     {product.description}
                                                 </p>
                                             </div>
                                         </div>
                                     </td>
                                     <td>
-                                        <span className="badge badge-info capitalize">{product.category}</span>
+                                        <span className="badge badge-info">{product.category}</span>
                                     </td>
-                                    <td className="font-mono text-sm">{formatPrice(product.basePrice)}</td>
                                     <td>
-                                        <div className="flex gap-1">
+                                        <span className="text-mono text-sm font-medium">
+                                            {formatPrice(product.basePrice)}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div className="flex gap-1.5">
                                             {product.isPopular && <span className="badge badge-warning">Popular</span>}
                                             {product.isNew && <span className="badge badge-success">New</span>}
                                         </div>
                                     </td>
                                     <td>
-                                        <div className="flex items-center justify-end gap-2">
+                                        <div className="flex items-center justify-end gap-1">
                                             <Link
                                                 href={`/products/${product.id}/edit`}
-                                                className="p-2 text-neutral-400 hover:text-primary transition-colors"
+                                                className="action-btn"
                                             >
-                                                <Edit2 size={14} />
+                                                <Edit2 size={15} />
                                             </Link>
                                             <button
                                                 onClick={() => handleDelete(product.id)}
-                                                className="p-2 text-neutral-400 hover:text-danger transition-colors"
+                                                className="action-btn action-btn-danger"
                                             >
-                                                <Trash2 size={14} />
+                                                <Trash2 size={15} />
                                             </button>
                                         </div>
                                     </td>

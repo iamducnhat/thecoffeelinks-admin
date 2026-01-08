@@ -27,8 +27,28 @@
   --success: #2E5A3A;
 
   /* Borders */
-  --border: #A3B8A9;
+  --border: #C5C5BC;
   --border-strong: #2E5A3A;
+
+  /* Spacing System - 8px base */
+  --space-1: 0.25rem;
+  /* 4px */
+  --space-2: 0.5rem;
+  /* 8px */
+  --space-3: 0.75rem;
+  /* 12px */
+  --space-4: 1rem;
+  /* 16px */
+  --space-5: 1.25rem;
+  /* 20px */
+  --space-6: 1.5rem;
+  /* 24px */
+  --space-8: 2rem;
+  /* 32px */
+  --space-10: 2.5rem;
+  /* 40px */
+  --space-12: 3rem;
+  /* 48px */
 }
 
 @theme inline {
@@ -45,6 +65,8 @@
   --color-primary: var(--primary);
   --color-secondary: var(--secondary);
   --color-accent: var(--accent);
+  --color-border: var(--border);
+  --color-danger: var(--danger);
 
   /* Sharp aesthetic - no rounded corners */
   --radius-none: 0px;
@@ -69,6 +91,8 @@ body {
   color: var(--foreground);
   background: var(--neutral-100);
   -webkit-font-smoothing: antialiased;
+  font-size: 14px;
+  line-height: 1.5;
 }
 
 a {
@@ -76,20 +100,30 @@ a {
   text-decoration: none;
 }
 
-/* Sharp Button Styles */
+/* ============================================
+   BUTTONS - Refined with better proportions
+   ============================================ */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  padding: 0.625rem 1.25rem;
-  font-size: 0.75rem;
-  font-weight: 600;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-5);
+  font-size: 0.6875rem;
+  /* 11px */
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
   border: 1px solid transparent;
   cursor: pointer;
   transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn-sm {
+  padding: var(--space-2) var(--space-3);
+  font-size: 0.625rem;
+  /* 10px */
 }
 
 .btn-primary {
@@ -121,21 +155,35 @@ a {
 }
 
 .btn-outline:hover {
-  background: var(--neutral-100);
+  background: var(--neutral-50);
   border-color: var(--border-strong);
 }
 
-/* Card - Sharp edges */
+/* ============================================
+   CARDS - Consistent padding and spacing
+   ============================================ */
 .card {
   background: var(--background);
   border: 1px solid var(--border);
-  padding: 1.5rem;
+  padding: var(--space-6);
 }
 
-/* Input - Sharp edges */
+.card-compact {
+  padding: var(--space-4);
+}
+
+.card-header {
+  padding-bottom: var(--space-4);
+  margin-bottom: var(--space-4);
+  border-bottom: 1px solid var(--border);
+}
+
+/* ============================================
+   FORM ELEMENTS - Better visual weight
+   ============================================ */
 .input {
   width: 100%;
-  padding: 0.75rem 1rem;
+  padding: var(--space-3) var(--space-4);
   font-size: 0.875rem;
   border: 1px solid var(--border);
   background: var(--background);
@@ -152,18 +200,48 @@ a {
   color: var(--neutral-400);
 }
 
-/* Label - Uppercase style */
+textarea.input {
+  resize: vertical;
+  min-height: 80px;
+}
+
+select.input {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B6B60' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 2.5rem;
+}
+
 .label {
   display: block;
-  font-size: 0.625rem;
+  font-size: 0.6875rem;
+  /* 11px */
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--space-2);
   color: var(--neutral-500);
 }
 
-/* Table - Sharp design */
+.form-group {
+  margin-bottom: var(--space-5);
+}
+
+.form-group:last-child {
+  margin-bottom: 0;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-4);
+}
+
+/* ============================================
+   TABLE - Better cell padding and alignment
+   ============================================ */
 .table {
   width: 100%;
   border-collapse: collapse;
@@ -171,34 +249,50 @@ a {
 
 .table th,
 .table td {
-  padding: 1rem 1.25rem;
+  padding: var(--space-4) var(--space-5);
   text-align: left;
   border-bottom: 1px solid var(--border);
+  vertical-align: middle;
 }
 
 .table th {
   font-size: 0.625rem;
+  /* 10px */
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--neutral-500);
   background: var(--neutral-100);
+  padding: var(--space-3) var(--space-5);
+}
+
+.table tbody tr {
+  transition: background-color 0.1s;
 }
 
 .table tbody tr:hover {
   background: var(--neutral-50);
 }
 
-/* Badge - Sharp rectangular */
+.table td:last-child {
+  text-align: right;
+}
+
+/* ============================================
+   BADGES - Refined sizing
+   ============================================ */
 .badge {
   display: inline-flex;
   align-items: center;
-  padding: 0.25rem 0.5rem;
-  font-size: 0.625rem;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-2);
+  font-size: 0.5625rem;
+  /* 9px */
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   border: 1px solid;
+  line-height: 1;
 }
 
 .badge-success {
@@ -219,32 +313,49 @@ a {
   border-color: var(--secondary);
 }
 
-/* Page Header */
+/* ============================================
+   PAGE LAYOUT - Consistent spacing
+   ============================================ */
 .page-header {
-  margin-bottom: 2rem;
+  margin-bottom: var(--space-8);
 }
 
 .page-title {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
+  /* 20px */
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--foreground);
+  line-height: 1.2;
+}
+
+.page-subtitle {
+  font-size: 0.6875rem;
+  /* 11px */
+  color: var(--neutral-500);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-top: var(--space-1);
+}
+
+.section-title {
+  font-size: 0.75rem;
+  /* 12px */
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--foreground);
+  margin-bottom: var(--space-4);
 }
 
-.page-subtitle {
-  font-size: 0.75rem;
-  color: var(--neutral-500);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-top: 0.25rem;
-}
-
-/* Stat Card */
+/* ============================================
+   STAT CARDS - Better proportions
+   ============================================ */
 .stat-card {
   background: var(--background);
   border: 1px solid var(--border);
-  padding: 1.5rem;
+  padding: var(--space-5);
   transition: border-color 0.15s;
 }
 
@@ -257,12 +368,149 @@ a {
   font-weight: 700;
   font-family: ui-monospace, monospace;
   color: var(--foreground);
+  line-height: 1;
+  margin-bottom: var(--space-1);
 }
 
 .stat-label {
   font-size: 0.625rem;
+  /* 10px */
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--neutral-500);
+}
+
+.stat-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  margin-bottom: var(--space-4);
+  transition: border-color 0.15s;
+}
+
+.stat-card:hover .stat-icon {
+  border-color: var(--primary);
+}
+
+/* ============================================
+   GRID LAYOUTS
+   ============================================ */
+.grid-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-4);
+}
+
+@media (max-width: 1024px) {
+  .grid-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.grid-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+}
+
+@media (max-width: 1024px) {
+  .grid-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .grid-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+.text-mono {
+  font-family: ui-monospace, SFMono-Regular, monospace;
+}
+
+.text-muted {
+  color: var(--neutral-500);
+}
+
+.text-primary {
+  color: var(--primary);
+}
+
+.text-danger {
+  color: var(--danger);
+}
+
+.gap-4 {
+  gap: var(--space-4);
+}
+
+.gap-6 {
+  gap: var(--space-6);
+}
+
+.mb-4 {
+  margin-bottom: var(--space-4);
+}
+
+.mb-6 {
+  margin-bottom: var(--space-6);
+}
+
+.mb-8 {
+  margin-bottom: var(--space-8);
+}
+
+.mt-4 {
+  margin-top: var(--space-4);
+}
+
+.mt-6 {
+  margin-top: var(--space-6);
+}
+
+.p-0 {
+  padding: 0;
+}
+
+/* Action buttons in table cells */
+.action-btn {
+  padding: var(--space-2);
+  color: var(--neutral-400);
+  transition: color 0.15s;
+}
+
+.action-btn:hover {
+  color: var(--primary);
+}
+
+.action-btn-danger:hover {
+  color: var(--danger);
+}
+
+/* Empty state */
+.empty-state {
+  padding: var(--space-12) var(--space-8);
+  text-align: center;
+  color: var(--neutral-500);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* Loading state */
+.loading-state {
+  padding: var(--space-12) var(--space-8);
+  text-align: center;
+  color: var(--neutral-400);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }

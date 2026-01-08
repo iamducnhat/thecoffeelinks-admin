@@ -51,34 +51,35 @@ export default function NewVoucherPage() {
     return (
         <div>
             {/* Header */}
-            <div className="flex items-center gap-4 mb-8">
-                <Link href="/vouchers" className="p-2 hover:bg-neutral-100 border border-transparent hover:border-border transition-all">
+            <div className="flex items-center gap-5 page-header">
+                <Link
+                    href="/vouchers"
+                    className="w-10 h-10 flex items-center justify-center border border-border hover:border-primary hover:text-primary transition-all"
+                >
                     <ArrowLeft size={18} />
                 </Link>
                 <div>
-                    <h1 className="text-xl font-bold uppercase tracking-widest text-foreground">Add Voucher</h1>
-                    <p className="text-xs uppercase tracking-wider text-neutral-500 mt-1">
-                        Create a new discount code
-                    </p>
+                    <h1 className="page-title">Add Voucher</h1>
+                    <p className="page-subtitle">Create a new discount code</p>
                 </div>
             </div>
 
             {/* Form */}
             <form onSubmit={handleSubmit} className="max-w-2xl">
-                <div className="card space-y-6">
-                    <div>
+                <div className="card">
+                    <div className="form-group">
                         <label className="label">Voucher Code</label>
                         <input
                             type="text"
                             required
                             value={form.code}
                             onChange={(e) => setForm({ ...form, code: e.target.value.toUpperCase() })}
-                            className="input font-mono uppercase"
+                            className="input text-mono uppercase"
                             placeholder="e.g. WELCOME10"
                         />
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="form-row form-group">
                         <div>
                             <label className="label">Discount Type</label>
                             <select
@@ -99,20 +100,20 @@ export default function NewVoucherPage() {
                                 required
                                 value={form.discount}
                                 onChange={(e) => setForm({ ...form, discount: e.target.value })}
-                                className="input font-mono"
+                                className="input text-mono"
                                 placeholder={form.type === 'percentage' ? '10' : '50000'}
                             />
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="form-row">
                         <div>
                             <label className="label">Minimum Order (VND)</label>
                             <input
                                 type="number"
                                 value={form.minOrder}
                                 onChange={(e) => setForm({ ...form, minOrder: e.target.value })}
-                                className="input font-mono"
+                                className="input text-mono"
                                 placeholder="0"
                             />
                         </div>
@@ -123,7 +124,7 @@ export default function NewVoucherPage() {
                                     type="number"
                                     value={form.maxDiscount}
                                     onChange={(e) => setForm({ ...form, maxDiscount: e.target.value })}
-                                    className="input font-mono"
+                                    className="input text-mono"
                                     placeholder="Optional"
                                 />
                             </div>

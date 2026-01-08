@@ -60,34 +60,28 @@ export default function Dashboard() {
   return (
     <div>
       {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-xl font-bold uppercase tracking-widest text-foreground">Dashboard</h1>
-        <p className="text-xs uppercase tracking-wider text-neutral-500 mt-1">
-          Welcome to The Coffee Links Admin
-        </p>
+      <div className="page-header">
+        <h1 className="page-title">Dashboard</h1>
+        <p className="page-subtitle">Welcome to The Coffee Links Admin</p>
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div className="grid-stats mb-8">
         {statCards.map((stat) => (
-          <Link key={stat.label} href={stat.href} className="stat-card group">
-            <div className="flex items-center justify-between mb-4">
-              <div className="w-10 h-10 border border-border flex items-center justify-center group-hover:border-primary transition-colors">
-                <stat.icon size={18} className="text-primary" />
-              </div>
+          <Link key={stat.label} href={stat.href} className="stat-card">
+            <div className="stat-icon">
+              <stat.icon size={18} className="text-primary" />
             </div>
-            <p className="stat-value">{loading ? '...' : stat.value}</p>
-            <p className="stat-label mt-1">{stat.label}</p>
+            <p className="stat-value">{loading ? '—' : stat.value}</p>
+            <p className="stat-label">{stat.label}</p>
           </Link>
         ))}
       </div>
 
       {/* Quick Actions */}
       <div className="card">
-        <h2 className="text-sm font-bold uppercase tracking-widest text-foreground mb-6">
-          Quick Actions
-        </h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <h2 className="section-title">Quick Actions</h2>
+        <div className="flex flex-wrap gap-3">
           <Link href="/products/new" className="btn btn-primary">
             <Coffee size={14} />
             Add Product

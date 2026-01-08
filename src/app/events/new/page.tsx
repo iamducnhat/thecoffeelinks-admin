@@ -56,29 +56,30 @@ export default function NewEventPage() {
     return (
         <div>
             {/* Header */}
-            <div className="flex items-center gap-4 mb-8">
-                <Link href="/events" className="p-2 hover:bg-neutral-100 border border-transparent hover:border-border transition-all">
+            <div className="flex items-center gap-5 page-header">
+                <Link
+                    href="/events"
+                    className="w-10 h-10 flex items-center justify-center border border-border hover:border-primary hover:text-primary transition-all"
+                >
                     <ArrowLeft size={18} />
                 </Link>
                 <div>
-                    <h1 className="text-xl font-bold uppercase tracking-widest text-foreground">Add Event</h1>
-                    <p className="text-xs uppercase tracking-wider text-neutral-500 mt-1">
-                        Create a new carousel promotion
-                    </p>
+                    <h1 className="page-title">Add Event</h1>
+                    <p className="page-subtitle">Create a new carousel promotion</p>
                 </div>
             </div>
 
             {/* Preview */}
             <div className="mb-8">
-                <p className="label mb-3">Preview</p>
-                <div className="bg-neutral-900 text-neutral-50 p-6 max-w-md">
-                    <span className="text-[10px] font-bold uppercase tracking-widest opacity-60">
+                <p className="label">Preview</p>
+                <div className="bg-neutral-900 text-neutral-50 p-5 max-w-sm">
+                    <span className="text-[9px] font-bold uppercase tracking-[0.15em] opacity-50">
                         {form.type}
                     </span>
-                    <h3 className="text-xl font-bold uppercase tracking-wide mt-2">
+                    <h3 className="text-lg font-bold uppercase tracking-wide mt-2 leading-tight">
                         {form.title || 'Event Title'}
                     </h3>
-                    <p className="text-xs opacity-60 mt-1 uppercase">
+                    <p className="text-[11px] opacity-50 mt-1.5 uppercase tracking-wide">
                         {form.subtitle || 'Event subtitle'}
                     </p>
                 </div>
@@ -86,8 +87,8 @@ export default function NewEventPage() {
 
             {/* Form */}
             <form onSubmit={handleSubmit} className="max-w-2xl">
-                <div className="card space-y-6">
-                    <div className="grid grid-cols-2 gap-4">
+                <div className="card">
+                    <div className="form-row form-group">
                         <div>
                             <label className="label">Event Type</label>
                             <select
@@ -116,7 +117,7 @@ export default function NewEventPage() {
                         </div>
                     </div>
 
-                    <div>
+                    <div className="form-group">
                         <label className="label">Title</label>
                         <input
                             type="text"
@@ -128,7 +129,7 @@ export default function NewEventPage() {
                         />
                     </div>
 
-                    <div>
+                    <div className="form-group">
                         <label className="label">Subtitle</label>
                         <input
                             type="text"
