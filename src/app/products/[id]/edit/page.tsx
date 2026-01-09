@@ -84,12 +84,9 @@ export default function EditProductPage() {
             if (res.ok) {
                 router.push('/products');
             } else {
-                // If PUT fails, maybe try POST to overwrite? Or just alert.
-                // Assuming PUT is implemented or we simulate it.
-                // For this task, if API is missing, we can't fix Backend.
-                // But we can ensure UI behaves correctly.
-                alert('Product updated successfully (simulated if backend missing update)');
-                router.push('/products');
+                const data = await res.json();
+                console.error('Update failed:', data);
+                alert(data.error || 'Failed to update product');
             }
         } catch (error) {
             console.error('Error:', error);
