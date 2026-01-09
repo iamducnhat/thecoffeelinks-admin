@@ -1,0 +1,168 @@
+@import "tailwindcss";
+
+:root {
+  /* Forest Theme Palette */
+  --foreground: #1A2E22;
+  --background: #F5F5F0;
+
+  /* Neutral / Earthy Tones */
+  --neutral-50: #FAFAF5;
+  --neutral-100: #F0F0E8;
+  --neutral-200: #E2E2D9;
+  --neutral-300: #C5C5BC;
+  --neutral-800: #2E3B33;
+  --neutral-900: #1A2E22;
+
+  /* Accents */
+  --primary: #2E5A3A;
+  --primary-hover: #234832;
+  --secondary: #8B5E3C;
+  --accent: #8B5E3C;
+  --accent-foreground: #F5F5F0;
+
+  /* Borders */
+  --border-color: #A3B8A9;
+  --border-strong: #2E5A3A;
+
+  /* Status */
+  --danger: #943131;
+  --success: #2E5A3A;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-neutral-50: var(--neutral-50);
+  --color-neutral-100: var(--neutral-100);
+  --color-neutral-200: var(--neutral-200);
+  --color-neutral-300: var(--neutral-300);
+  --color-neutral-800: var(--neutral-800);
+  --color-neutral-900: var(--neutral-900);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+  --color-border: var(--border-color);
+  --color-border-strong: var(--border-strong);
+  --color-danger: var(--danger);
+  --color-success: var(--success);
+
+  /* Sharp Aesthetic - Forest Theme */
+  --radius-none: 0px;
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--neutral-100);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* =========================================
+   FOREST DESIGN SYSTEM COMPONENT RESETS
+   ========================================= */
+
+/* Buttons: Rectangular, Uppercase, Tracking */
+.btn {
+  @apply inline-flex items-center justify-center gap-2 px-6 py-3 font-bold uppercase tracking-wider transition-all duration-200 cursor-pointer text-sm;
+  border-radius: 0px;
+  min-height: 48px;
+}
+
+.btn-primary {
+  @apply bg-primary text-neutral-50 border border-primary hover:bg-primary-hover;
+}
+
+.btn-secondary {
+  /* Using standard colors instead of custom ones to avoid build errors if undefined */
+  @apply bg-neutral-200 text-foreground border border-neutral-300 hover:bg-neutral-300;
+}
+
+.btn-outline {
+  @apply bg-transparent text-foreground border border-border hover:bg-neutral-50 hover:border-border-strong;
+}
+
+.btn-danger {
+  @apply bg-danger text-white border border-danger hover:opacity-90;
+}
+
+.btn-sm {
+  @apply px-4 py-2 text-xs h-9 min-h-0;
+}
+
+/* Inputs: Sharp, Earthy Border */
+.input {
+  @apply w-full px-4 py-3 bg-background border border-border text-foreground transition-colors focus:outline-none focus:border-border-strong focus:ring-0;
+  border-radius: 0px;
+}
+
+/* Cards: Sharp, Subtle Border */
+.card {
+  @apply bg-background border border-border p-6 shadow-sm;
+  border-radius: 0px;
+}
+
+/* Typography Utilities */
+.text-header {
+  @apply uppercase tracking-widest font-bold text-foreground;
+}
+
+.text-label {
+  @apply text-xs uppercase tracking-wider font-semibold text-neutral-500;
+}
+
+/* Badge */
+.badge {
+  @apply inline-flex items-center px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider border;
+  border-radius: 0px;
+}
+
+.badge-success {
+  @apply bg-neutral-50 text-success border-success;
+}
+
+/* Explicit success usage */
+.badge-warning {
+  @apply bg-amber-50 text-amber-700 border-amber-500;
+}
+
+.badge-neutral {
+  @apply bg-neutral-100 text-neutral-600 border-neutral-300;
+}
+
+/* Table */
+.table {
+  @apply w-full border-collapse text-sm text-left;
+}
+
+.table th {
+  @apply px-4 py-3 bg-neutral-100 font-bold uppercase tracking-wider text-xs border-b border-border text-neutral-600;
+}
+
+.table td {
+  @apply px-4 py-3 border-b border-border;
+}
+
+.table tr:hover {
+  @apply bg-neutral-50;
+}
+
+/* Layout Utilities */
+.page-header {
+  @apply mb-6 pb-4 border-b border-border;
+}
+
+.page-title {
+  @apply text-2xl font-bold uppercase tracking-widest text-foreground;
+}
+
+.page-subtitle {
+  @apply text-sm text-neutral-500 uppercase tracking-widest font-medium;
+}
