@@ -9,10 +9,12 @@ import {
     Tag,
     Gift,
     Settings,
+    MapPin,
 } from 'lucide-react';
 
 const navItems = [
     { href: '/', label: 'Dashboard', icon: LayoutDashboard },
+    { href: '/stores', label: 'Stores', icon: MapPin },
     { href: '/products', label: 'Products', icon: Coffee },
     { href: '/events', label: 'Events', icon: Calendar },
     { href: '/vouchers', label: 'Vouchers', icon: Tag },

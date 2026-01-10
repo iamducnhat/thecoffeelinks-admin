@@ -81,7 +81,7 @@ export default function LoginPage() {
                                         required
                                         value={username}
                                         onChange={(e) => setUsername(e.target.value)}
-                                        className="input pl-10 bg-neutral-50 focus:bg-white"
+                                        className="input !pl-12 bg-neutral-50 focus:bg-white"
                                         placeholder="Enter username"
                                     />
                                 </div>
@@ -101,7 +101,7 @@ export default function LoginPage() {
                                         required
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
-                                        className="input pl-10 bg-neutral-50 focus:bg-white"
+                                        className="input !pl-12 bg-neutral-50 focus:bg-white"
                                         placeholder="Enter password"
                                     />
                                 </div>
