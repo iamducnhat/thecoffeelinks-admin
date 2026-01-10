@@ -6,7 +6,7 @@ export function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
 
     // Paths that don't require authentication
-    if (pathname.startsWith('/login') || pathname.startsWith('/api/auth')) {
+    if (pathname.startsWith('/login') || pathname.startsWith('/api')) {
         // If user is already authenticated and tries to go to login, redirect to dashboard
         if (adminToken === process.env.ADMIN_SECRET && pathname === '/login') {
             return NextResponse.redirect(new URL('/', request.url));
