@@ -21,7 +21,9 @@ export default function LoginPage() {
             // Encrypt the credentials
             const encryptedData = encrypt({ email: username, password });
 
-            const res = await fetch('/api/auth/login', {
+            // Use the external server API URL directly
+            const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
+            const res = await fetch(`${API_URL}/api/auth/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
