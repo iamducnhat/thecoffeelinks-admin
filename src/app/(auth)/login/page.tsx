@@ -38,6 +38,9 @@ export default function LoginPage() {
                 const decryptedSession = decrypt(responseData.data);
 
                 if (decryptedSession && decryptedSession.success) {
+                    // Set the admin token cookie
+                    document.cookie = `admin_token=${decryptedSession.token}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Strict`;
+
                     router.refresh(); // Refresh to update middleware state
                     router.push('/');
                 } else {
