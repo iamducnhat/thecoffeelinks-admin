@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Coffee, Lock, User, AlertCircle, Loader2 } from 'lucide-react';
+import { encrypt, decrypt } from '@/lib/encryption';
 
 export default function LoginPage() {
     const router = useRouter();
@@ -17,22 +18,34 @@ export default function LoginPage() {
         setLoading(true);
 
         try {
+            // Encrypt the credentials
+            const encryptedData = encrypt({ email: username, password });
+
             const res = await fetch('/api/auth/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ username, password }),
+                body: JSON.stringify({ data: encryptedData }),
             });
 
+            const responseData = await res.json();
+
             if (res.ok) {
-                router.refresh(); // Refresh to update middleware state
-                router.push('/');
+                // Decrypt the session data
+                const decryptedSession = decrypt(responseData.data);
+
+                if (decryptedSession && decryptedSession.success) {
+                    router.refresh(); // Refresh to update middleware state
+                    router.push('/');
+                } else {
+                    setError('Failed to process server response');
+                }
             } else {
-                const data = await res.json();
-                setError(data.error || 'Login failed');
+                setError(responseData.error || 'Login failed');
             }
         } catch (err) {
+            console.error(err);
             setError('An unexpected error occurred');
         } finally {
             setLoading(false);
