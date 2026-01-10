@@ -4,11 +4,12 @@ import type { NextRequest } from 'next/server';
 export function middleware(request: NextRequest) {
     const adminToken = request.cookies.get('admin_token')?.value;
     const { pathname } = request.nextUrl;
+    const adminSecret = process.env.ADMIN_SECRET?.trim();
 
     // Paths that don't require authentication
     if (pathname.startsWith('/login') || pathname.startsWith('/api')) {
         // If user is already authenticated and tries to go to login, redirect to dashboard
-        if (adminToken === process.env.ADMIN_SECRET && pathname === '/login') {
+        if (adminToken === adminSecret && pathname === '/login') {
             return NextResponse.redirect(new URL('/', request.url));
         }
         return NextResponse.next();
@@ -18,7 +19,7 @@ export function middleware(request: NextRequest) {
     // Note: ideally checking simple equality. 
     // If ADMIN_SECRET is not set, this might block everything or allow nothing depending on logic.
     // We assume ADMIN_SECRET is set.
-    if (adminToken !== process.env.ADMIN_SECRET) {
+    if (adminToken !== adminSecret) {
         return NextResponse.redirect(new URL('/login', request.url));
     }
 
