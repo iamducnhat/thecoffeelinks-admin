@@ -35,10 +35,12 @@ export default function EditVoucherPage() {
             const voucher = data.vouchers?.find((v: any) => v.code === id);
 
             if (voucher) {
+                // Determine type based on which value is present
+                const isPercentage = voucher.discountPercent && voucher.discountPercent > 0;
                 setForm({
                     code: voucher.code,
-                    discount: voucher.discount || voucher.discountPercent || 0,
-                    type: voucher.type || 'fixed',
+                    discount: isPercentage ? voucher.discountPercent : (voucher.discount || 0),
+                    type: isPercentage ? 'percentage' : 'fixed',
                     minOrder: voucher.minOrder || 0,
                     maxDiscount: voucher.maxDiscount
                 });
@@ -63,8 +65,9 @@ export default function EditVoucherPage() {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    ...form,
-                    discount: Number(form.discount),
+                    // Send discountPercent for percentage type, discount for fixed type
+                    discountPercent: form.type === 'percentage' ? Number(form.discount) : null,
+                    discount: form.type === 'fixed' ? Number(form.discount) : null,
                     minOrder: Number(form.minOrder),
                     maxDiscount: form.maxDiscount ? Number(form.maxDiscount) : undefined
                 }),

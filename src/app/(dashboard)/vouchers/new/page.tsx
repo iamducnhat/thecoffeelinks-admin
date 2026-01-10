@@ -28,8 +28,9 @@ export default function NewVoucherPage() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     code: form.code.toUpperCase(),
-                    discount: parseInt(form.discount),
-                    type: form.type,
+                    // Send discountPercent for percentage type, discount for fixed type
+                    discountPercent: form.type === 'percentage' ? parseInt(form.discount) : null,
+                    discount: form.type === 'fixed' ? parseInt(form.discount) : null,
                     minOrder: parseInt(form.minOrder),
                     maxDiscount: form.maxDiscount ? parseInt(form.maxDiscount) : undefined,
                 }),
