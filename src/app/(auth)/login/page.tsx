@@ -41,8 +41,8 @@ export default function LoginPage() {
                     // Set the admin token cookie
                     document.cookie = `admin_token=${decryptedSession.token}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Strict`;
 
-                    router.refresh(); // Refresh to update middleware state
-                    router.push('/');
+                    // Use full page reload to ensure middleware picks up the cookie
+                    window.location.href = '/';
                 } else {
                     setError('Failed to process server response');
                 }
