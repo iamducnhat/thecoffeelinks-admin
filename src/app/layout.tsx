@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Coffee Links Admin",
+  title: "The Coffee Links Admin",
   description: "Admin dashboard for The Coffee Links",
 };
 

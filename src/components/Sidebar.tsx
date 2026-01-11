@@ -29,7 +29,7 @@ export default function Sidebar() {
             {/* Header - Aligned to Page Header Height */}
             <div className="h-24 px-8 flex flex-col justify-center border-b border-border">
                 <h1 className="text-2xl font-bold uppercase tracking-[0.2em] text-foreground leading-none">
-                    Coffee Links
+                    The Coffee Links
                 </h1>
                 <p className="text-[10px] uppercase tracking-[0.2em] text-neutral-500 mt-2 font-bold">
                     Admin Panel

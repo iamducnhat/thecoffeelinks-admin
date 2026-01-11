@@ -2,7 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Plus, MapPin, Clock, Phone } from 'lucide-react';
+import { Plus, Edit2, Trash2, Search, MapPin, Clock, Phone } from 'lucide-react';
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://appcafe-server.vercel.app';
 
 interface Store {
     id: string;
@@ -17,6 +19,7 @@ interface Store {
 export default function StoresPage() {
     const [stores, setStores] = useState<Store[]>([]);
     const [loading, setLoading] = useState(true);
+    const [searchQuery, setSearchQuery] = useState('');
 
     useEffect(() => {
         fetchStores();
@@ -24,7 +27,7 @@ export default function StoresPage() {
 
     const fetchStores = async () => {
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'}/api/stores`);
+            const res = await fetch(`${API_URL}/api/stores`);
             const data = await res.json();
             if (data.success) {
                 setStores(data.stores);
@@ -36,66 +39,128 @@ export default function StoresPage() {
         }
     };
 
-    if (loading) return <div className="p-8">Loading stores...</div>;
+    const handleDelete = async (id: string) => {
+        if (!confirm('Are you sure you want to delete this store?')) return;
+
+        try {
+            await fetch(`${API_URL}/api/stores/${id}`, { method: 'DELETE' });
+            setStores(stores.filter(s => s.id !== id));
+        } catch (error) {
+            console.error('Failed to delete store:', error);
+        }
+    };
+
+    const filteredStores = stores.filter(s =>
+        s.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        s.address.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
     return (
-        <div className="space-y-6">
-            <div className="flex items-center justify-between">
+        <div>
+            {/* Header */}
+            <div className="flex items-center justify-between page-header">
                 <div>
-                    <h1 className="text-2xl font-bold font-serif text-[#1a2e1a]">Store Locations</h1>
-                    <p className="text-gray-500">Manage your coffee shop chain</p>
+                    <h1 className="page-title">Stores</h1>
+                    <p className="page-subtitle">Manage your store locations</p>
                 </div>
-                <Link
-                    href="/stores/new"
-                    className="bg-[#1a2e1a] text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-[#2a4e2a] transition-colors"
-                >
-                    <Plus size={20} />
+                <Link href="/stores/new" className="btn btn-primary">
+                    <Plus size={16} />
                     Add Store
                 </Link>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {stores.map((store) => (
-                    <Link
-                        key={store.id}
-                        href={`/stores/${store.id}`}
-                        className="group bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all relative overflow-hidden"
-                    >
-                        <div className={`absolute top-0 right-0 p-2 ${store.is_active ? 'text-green-600' : 'text-red-500'}`}>
-                            <div className="text-xs font-bold uppercase tracking-wider border border-current px-2 py-0.5 rounded-full">
-                                {store.is_active ? 'Open' : 'Closed'}
-                            </div>
+            {/* Filters */}
+            <div className="card mb-6">
+                <div className="flex flex-wrap gap-6">
+                    <div className="flex-1 min-w-[240px]">
+                        <div className="relative">
+                            <Search size={15} className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400" />
+                            <input
+                                type="text"
+                                placeholder="Search stores..."
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                className="input pl-11"
+                            />
                         </div>
-
-                        <h3 className="text-xl font-bold text-[#1a2e1a] mb-4 group-hover:text-[#c6a87c] transition-colors">
-                            {store.name}
-                        </h3>
-
-                        <div className="space-y-3 text-sm text-gray-600">
-                            <div className="flex items-start gap-3">
-                                <MapPin size={18} className="text-[#c6a87c] mt-0.5 shrink-0" />
-                                <span>{store.address}</span>
-                            </div>
-
-                            <div className="flex items-center gap-3">
-                                <Phone size={18} className="text-[#c6a87c] shrink-0" />
-                                <span>{store.phone || 'No phone'}</span>
-                            </div>
-
-                            <div className="flex items-center gap-3">
-                                <Clock size={18} className="text-[#c6a87c] shrink-0" />
-                                <span>{store.opening_time?.slice(0, 5)} - {store.closing_time?.slice(0, 5)}</span>
-                            </div>
-                        </div>
-                    </Link>
-                ))}
-
-                {stores.length === 0 && (
-                    <div className="col-span-full text-center py-12 text-gray-400 bg-gray-50 rounded-xl border border-dashed border-gray-200">
-                        <MapPin size={48} className="mx-auto mb-4 opacity-20" />
-                        <p className="text-lg">No stores found</p>
-                        <p className="text-sm">Add your first location to get started</p>
                     </div>
+                </div>
+            </div>
+
+            {/* Stores Table */}
+            <div className="card p-0 overflow-hidden">
+                {loading ? (
+                    <div className="p-12 text-center text-neutral-500 text-sm font-medium uppercase tracking-wider">Loading stores...</div>
+                ) : filteredStores.length === 0 ? (
+                    <div className="p-12 text-center text-neutral-500 text-sm font-medium uppercase tracking-wider">No stores found</div>
+                ) : (
+                    <table className="table">
+                        <thead>
+                            <tr>
+                                <th>Store</th>
+                                <th>Phone</th>
+                                <th>Hours</th>
+                                <th>Status</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {filteredStores.map((store) => (
+                                <tr key={store.id}>
+                                    <td>
+                                        <div className="flex items-center gap-4">
+                                            <div className="w-12 h-12 bg-neutral-100 border border-border flex items-center justify-center flex-shrink-0">
+                                                <MapPin size={20} className="text-neutral-400" strokeWidth={1.5} />
+                                            </div>
+                                            <div className="min-w-0">
+                                                <p className="font-bold text-sm text-foreground truncate uppercase tracking-tight">
+                                                    {store.name}
+                                                </p>
+                                                <p className="text-xs text-neutral-500 truncate mt-1 font-medium">
+                                                    {store.address}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div className="flex items-center gap-2 text-sm text-neutral-600">
+                                            <Phone size={14} className="text-neutral-400" />
+                                            <span className="font-mono">{store.phone || '—'}</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div className="flex items-center gap-2 text-sm text-neutral-600">
+                                            <Clock size={14} className="text-neutral-400" />
+                                            <span className="font-mono">
+                                                {store.opening_time?.slice(0, 5)} - {store.closing_time?.slice(0, 5)}
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span className={`badge ${store.is_active ? 'badge-success' : 'badge-danger'}`}>
+                                            {store.is_active ? 'Open' : 'Closed'}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div className="flex items-center justify-end gap-2">
+                                            <Link
+                                                href={`/stores/${store.id}`}
+                                                className="btn btn-sm btn-outline px-2 border-neutral-200 hover:border-primary text-neutral-500 hover:text-primary"
+                                            >
+                                                <Edit2 size={14} />
+                                            </Link>
+                                            <button
+                                                onClick={() => handleDelete(store.id)}
+                                                className="btn btn-sm btn-outline px-2 border-neutral-200 hover:border-danger text-neutral-500 hover:text-danger hover:bg-red-50"
+                                            >
+                                                <Trash2 size={14} />
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
                 )}
             </div>
         </div>
