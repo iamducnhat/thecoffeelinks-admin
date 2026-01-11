@@ -80,7 +80,8 @@ export default function StoresPage() {
                                 placeholder="Search stores..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="input pl-11"
+                                className="input"
+                                style={{ paddingLeft: '2.75rem' }}
                             />
                         </div>
                     </div>
