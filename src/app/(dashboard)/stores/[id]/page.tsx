@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { ArrowLeft, Save, Trash } from 'lucide-react';
 import Link from 'next/link';
 
@@ -17,8 +17,10 @@ interface Store {
     is_active: boolean;
 }
 
-export default function StoreEditPage({ params }: { params: { id: string } }) {
-    const isNew = params.id === 'new';
+export default function StoreEditPage() {
+    const params = useParams();
+    const id = params?.id as string;
+    const isNew = id === 'new';
     const router = useRouter();
     const [loading, setLoading] = useState(!isNew);
     const [saving, setSaving] = useState(false);
@@ -35,14 +37,14 @@ export default function StoreEditPage({ params }: { params: { id: string } }) {
     });
 
     useEffect(() => {
-        if (!isNew) {
+        if (!isNew && id) {
             fetchStore();
         }
-    }, [params.id]);
+    }, [id]);
 
     const fetchStore = async () => {
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'}/api/stores/${params.id}`);
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'}/api/stores/${id}`);
             const data = await res.json();
             if (data.success) {
                 setFormData(data.store);
@@ -61,7 +63,7 @@ export default function StoreEditPage({ params }: { params: { id: string } }) {
         try {
             const url = isNew
                 ? `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'}/api/stores`
-                : `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'}/api/stores/${params.id}`;
+                : `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'}/api/stores/${id}`;
 
             const method = isNew ? 'POST' : 'PUT';
 
@@ -89,13 +91,6 @@ export default function StoreEditPage({ params }: { params: { id: string } }) {
         if (!confirm('Are you sure you want to delete this store?')) return;
 
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'}/api/stores/${params.id}`, {
-                method: 'DELETE',
-            });
-            const data = await res.json();
-            if (data.success) {
-                router.push('/stores');
-            }
         } catch (error) {
             console.error('Delete failed:', error);
         }
