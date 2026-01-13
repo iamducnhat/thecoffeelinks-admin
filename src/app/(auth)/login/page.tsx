@@ -27,7 +27,7 @@ export default function LoginPage() {
             // Encrypt credentials with user-provided PIN
             const CryptoJS = (await import('crypto-js')).default;
             const encryptedData = CryptoJS.AES.encrypt(
-                JSON.stringify({ email: username, password }),
+                JSON.stringify({ username, password }),
                 pin
             ).toString();
 
