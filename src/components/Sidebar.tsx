@@ -12,11 +12,13 @@ import {
     MapPin,
     ChevronRight,
     Sparkles,
+    Layers,
 } from 'lucide-react';
 
 const navItems = [
     { href: '/', label: 'Dashboard', icon: LayoutDashboard },
     { href: '/stores', label: 'Stores', icon: MapPin },
+    { href: '/categories', label: 'Categories', icon: Layers },
     { href: '/products', label: 'Products', icon: Coffee },
     { href: '/events', label: 'Events', icon: Calendar },
     { href: '/vouchers', label: 'Vouchers', icon: Tag },
