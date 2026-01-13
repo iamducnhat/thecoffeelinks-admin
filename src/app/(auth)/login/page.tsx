@@ -8,7 +8,7 @@ export default function LoginPage() {
     const router = useRouter();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [secretKey, setSecretKey] = useState('');
+    const [pin, setPin] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
 
@@ -18,17 +18,17 @@ export default function LoginPage() {
         setLoading(true);
 
         try {
-            if (!secretKey) {
-                setError('Secret key is required');
+            if (!pin) {
+                setError('Access PIN is required');
                 setLoading(false);
                 return;
             }
 
-            // Encrypt credentials with user-provided secret key
+            // Encrypt credentials with user-provided PIN
             const CryptoJS = (await import('crypto-js')).default;
             const encryptedData = CryptoJS.AES.encrypt(
                 JSON.stringify({ email: username, password }),
-                secretKey
+                pin
             ).toString();
 
             // Send encrypted data
@@ -131,21 +131,21 @@ export default function LoginPage() {
                             </div>
 
                             <div>
-                                <label className="text-label block mb-2" htmlFor="secretKey">
-                                    Secret Key
+                                <label className="text-label block mb-2" htmlFor="pin">
+                                    Access PIN
                                 </label>
                                 <div className="relative group">
                                     <div className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400 group-focus-within:text-primary transition-colors">
                                         <Lock className="w-5 h-5" />
                                     </div>
                                     <input
-                                        id="secretKey"
+                                        id="pin"
                                         type="password"
                                         required
-                                        value={secretKey}
-                                        onChange={(e) => setSecretKey(e.target.value)}
+                                        value={pin}
+                                        onChange={(e) => setPin(e.target.value)}
                                         className="input !pl-12 bg-neutral-50 focus:bg-white"
-                                        placeholder="Enter encryption secret key"
+                                        placeholder="Enter access PIN"
                                     />
                                 </div>
                             </div>
