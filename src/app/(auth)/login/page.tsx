@@ -50,9 +50,7 @@ export default function LoginPage() {
                 // Use full page reload to ensure middleware picks up the cookie
                 window.location.href = '/';
             } else {
-                setError(responseData.error || 'Invalid credentials');
-            } else {
-                setError(responseData.error || 'Login failed');
+                setError(responseData.error || 'Invalid PIN or credentials');
             }
         } catch (err) {
             console.error(err);
