@@ -6,6 +6,12 @@ import { Plus, Edit2, Trash2, Search, Coffee } from 'lucide-react';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://appcafe-server.vercel.app';
 
+interface Category {
+    id: string;
+    name: string;
+    type: string;
+}
+
 interface Product {
     id: string;
     name: string;
@@ -19,13 +25,25 @@ interface Product {
 
 export default function ProductsPage() {
     const [products, setProducts] = useState<Product[]>([]);
+    const [categories, setCategories] = useState<Category[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('all');
 
     useEffect(() => {
+        fetchCategories();
         fetchProducts();
     }, []);
+
+    const fetchCategories = async () => {
+        try {
+            const res = await fetch(`${API_URL}/api/categories`);
+            const data = await res.json();
+            setCategories(data.categories || []);
+        } catch (error) {
+            console.error('Failed to fetch categories:', error);
+        }
+    };
 
     const fetchProducts = async () => {
         try {
@@ -53,8 +71,6 @@ export default function ProductsPage() {
     const formatPrice = (price: number) => {
         return new Intl.NumberFormat('vi-VN').format(price) + 'đ';
     };
-
-    const categories = ['all', 'coffee', 'tea', 'smoothies', 'pastries', 'seasonal'];
 
     const filteredProducts = products.filter(p => {
         const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase());
@@ -96,9 +112,10 @@ export default function ProductsPage() {
                         onChange={(e) => setSelectedCategory(e.target.value)}
                         className="input w-auto min-w-[160px]"
                     >
+                        <option value="all">All Categories</option>
                         {categories.map(cat => (
-                            <option key={cat} value={cat}>
-                                {cat.charAt(0).toUpperCase() + cat.slice(1)}
+                            <option key={cat.id} value={cat.name}>
+                                {cat.name.charAt(0).toUpperCase() + cat.name.slice(1)}
                             </option>
                         ))}
                     </select>

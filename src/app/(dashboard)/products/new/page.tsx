@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, Save } from 'lucide-react';
@@ -8,20 +8,45 @@ import ImageUpload from '@/components/ImageUpload';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://appcafe-server.vercel.app';
 
-const categories = ['coffee', 'tea', 'smoothies', 'pastries', 'seasonal'];
+interface Category {
+    id: string;
+    name: string;
+    type: string;
+}
 
 export default function NewProductPage() {
     const router = useRouter();
     const [saving, setSaving] = useState(false);
+    const [categories, setCategories] = useState<Category[]>([]);
+    const [loadingCategories, setLoadingCategories] = useState(true);
     const [form, setForm] = useState({
         name: '',
         description: '',
         basePrice: '',
-        category: 'coffee',
+        categoryId: '',
         image: '/images/default.jpg',
         isPopular: false,
         isNew: true,
     });
+
+    useEffect(() => {
+        fetchCategories();
+    }, []);
+
+    const fetchCategories = async () => {
+        try {
+            const res = await fetch(`${API_URL}/api/categories`);
+            const data = await res.json();
+            setCategories(data.categories || []);
+            if (data.categories?.length > 0) {
+                setForm(prev => ({ ...prev, categoryId: data.categories[0].id }));
+            }
+        } catch (error) {
+            console.error('Failed to fetch categories:', error);
+        } finally {
+            setLoadingCategories(false);
+        }
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -110,15 +135,23 @@ export default function NewProductPage() {
                         <div>
                             <label className="text-label mb-2 block">Category</label>
                             <select
-                                value={form.category}
-                                onChange={(e) => setForm({ ...form, category: e.target.value })}
+                                value={form.categoryId}
+                                onChange={(e) => setForm({ ...form, categoryId: e.target.value })}
                                 className="input"
+                                disabled={loadingCategories}
+                                required
                             >
-                                {categories.map(cat => (
-                                    <option key={cat} value={cat}>
-                                        {cat.charAt(0).toUpperCase() + cat.slice(1)}
-                                    </option>
-                                ))}
+                                {loadingCategories ? (
+                                    <option>Loading categories...</option>
+                                ) : categories.length === 0 ? (
+                                    <option>No categories available</option>
+                                ) : (
+                                    categories.map(cat => (
+                                        <option key={cat.id} value={cat.id}>
+                                            {cat.name.charAt(0).toUpperCase() + cat.name.slice(1)}
+                                        </option>
+                                    ))
+                                )}
                             </select>
                         </div>
                     </div>

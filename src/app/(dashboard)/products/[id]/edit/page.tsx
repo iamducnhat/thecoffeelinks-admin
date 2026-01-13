@@ -8,14 +8,19 @@ import ImageUpload from '@/components/ImageUpload';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://appcafe-server.vercel.app';
 
-const categories = ['coffee', 'tea', 'smoothies', 'pastries', 'seasonal'];
+interface Category {
+    id: string;
+    name: string;
+    type: string;
+}
 
 interface Product {
     id: string;
     name: string;
     description: string;
     basePrice: number;
-    category: string;
+    category?: string;
+    categoryId?: string;
     image: string;
     isPopular: boolean;
     isNew: boolean;
@@ -29,10 +34,25 @@ export default function EditProductPage() {
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [form, setForm] = useState<Product | null>(null);
+    const [categories, setCategories] = useState<Category[]>([]);
+    const [loadingCategories, setLoadingCategories] = useState(true);
 
     useEffect(() => {
+        fetchCategories();
         fetchProduct();
     }, [id]);
+
+    const fetchCategories = async () => {
+        try {
+            const res = await fetch(`${API_URL}/api/categories`);
+            const data = await res.json();
+            setCategories(data.categories || []);
+        } catch (error) {
+            console.error('Failed to fetch categories:', error);
+        } finally {
+            setLoadingCategories(false);
+        }
+    };
 
     const fetchProduct = async () => {
         try {
@@ -157,15 +177,23 @@ export default function EditProductPage() {
                         <div>
                             <label className="text-label mb-2 block">Category</label>
                             <select
-                                value={form.category}
-                                onChange={(e) => setForm({ ...form, category: e.target.value })}
+                                value={form.categoryId || ''}
+                                onChange={(e) => setForm({ ...form, categoryId: e.target.value })}
                                 className="input"
+                                disabled={loadingCategories}
+                                required
                             >
-                                {categories.map(cat => (
-                                    <option key={cat} value={cat}>
-                                        {cat.charAt(0).toUpperCase() + cat.slice(1)}
-                                    </option>
-                                ))}
+                                {loadingCategories ? (
+                                    <option>Loading categories...</option>
+                                ) : categories.length === 0 ? (
+                                    <option>No categories available</option>
+                                ) : (
+                                    categories.map(cat => (
+                                        <option key={cat.id} value={cat.id}>
+                                            {cat.name.charAt(0).toUpperCase() + cat.name.slice(1)}
+                                        </option>
+                                    ))
+                                )}
                             </select>
                         </div>
                     </div>
