@@ -16,7 +16,6 @@ interface Product {
     id: string;
     name: string;
     description: string;
-    basePrice: number;
     category: string;
     image: string;
     isPopular?: boolean;

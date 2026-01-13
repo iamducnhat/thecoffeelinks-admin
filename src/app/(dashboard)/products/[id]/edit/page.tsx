@@ -18,7 +18,6 @@ interface Product {
     id: string;
     name: string;
     description: string;
-    basePrice: number;
     category?: string;
     categoryId?: string;
     image: string;
@@ -114,10 +113,7 @@ export default function EditProductPage() {
                     'Content-Type': 'application/json',
                     'X-Admin-Key': adminToken || ''
                 },
-                body: JSON.stringify({
-                    ...form,
-                    basePrice: Number(form.basePrice),
-                }),
+                body: JSON.stringify(form),
             });
 
             if (res.ok) {
@@ -181,40 +177,27 @@ export default function EditProductPage() {
                         />
                     </div>
 
-                    <div className="grid grid-cols-2 gap-6 mb-6">
-                        <div>
-                            <label className="text-label mb-2 block">Price (VND)</label>
-                            <input
-                                type="number"
-                                required
-                                value={form.basePrice}
-                                onChange={(e) => setForm({ ...form, basePrice: Number(e.target.value) })}
-                                className="input font-mono"
-                                placeholder="50000"
-                            />
-                        </div>
-                        <div>
-                            <label className="text-label mb-2 block">Category</label>
-                            <select
-                                value={form.categoryId || ''}
-                                onChange={(e) => setForm({ ...form, categoryId: e.target.value })}
-                                className="input"
-                                disabled={loadingCategories}
-                                required
-                            >
-                                {loadingCategories ? (
-                                    <option>Loading categories...</option>
-                                ) : categories.length === 0 ? (
-                                    <option>No categories available</option>
-                                ) : (
-                                    categories.map(cat => (
-                                        <option key={cat.id} value={cat.id}>
-                                            {cat.name.charAt(0).toUpperCase() + cat.name.slice(1)}
-                                        </option>
-                                    ))
-                                )}
-                            </select>
-                        </div>
+                    <div className="mb-6">
+                        <label className="text-label mb-2 block">Category</label>
+                        <select
+                            value={form.categoryId || ''}
+                            onChange={(e) => setForm({ ...form, categoryId: e.target.value })}
+                            className="input"
+                            disabled={loadingCategories}
+                            required
+                        >
+                            {loadingCategories ? (
+                                <option>Loading categories...</option>
+                            ) : categories.length === 0 ? (
+                                <option>No categories available</option>
+                            ) : (
+                                categories.map(cat => (
+                                    <option key={cat.id} value={cat.id}>
+                                        {cat.name.charAt(0).toUpperCase() + cat.name.slice(1)}
+                                    </option>
+                                ))
+                            )}
+                        </select>
                     </div>
 
                     <div className="mb-6">
