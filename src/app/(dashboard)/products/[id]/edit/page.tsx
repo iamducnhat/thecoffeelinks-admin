@@ -24,6 +24,11 @@ interface Product {
     image: string;
     isPopular: boolean;
     isNew: boolean;
+    sizeOptions?: {
+        small: { enabled: boolean; price: number };
+        medium: { enabled: boolean; price: number };
+        large: { enabled: boolean; price: number };
+    };
 }
 
 export default function EditProductPage() {
@@ -66,7 +71,12 @@ export default function EditProductPage() {
                     ...product,
                     // Ensure booleans
                     isPopular: !!product.isPopular,
-                    isNew: !!product.isNew
+                    isNew: !!product.isNew,
+                    sizeOptions: product.sizeOptions || {
+                        small: { enabled: false, price: 0 },
+                        medium: { enabled: true, price: 65000 },
+                        large: { enabled: true, price: 69000 }
+                    }
                 });
             } else {
                 // Try direct endpoint just in case
@@ -92,9 +102,18 @@ export default function EditProductPage() {
         setSaving(true);
 
         try {
+            // Get admin token from cookie
+            const adminToken = document.cookie
+                .split('; ')
+                .find(row => row.startsWith('admin_token='))
+                ?.split('=')[1];
+
             const res = await fetch(`${API_URL}/api/products/${id}`, {
-                method: 'PUT', // or PATCH
-                headers: { 'Content-Type': 'application/json' },
+                method: 'PUT',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'X-Admin-Key': adminToken || ''
+                },
                 body: JSON.stringify({
                     ...form,
                     basePrice: Number(form.basePrice),
@@ -203,6 +222,113 @@ export default function EditProductPage() {
                             value={form.image}
                             onChange={(url) => setForm({ ...form, image: url })}
                         />
+                    </div>
+
+                    <div className="mb-6">
+                        <label className="text-label mb-3 block">Available Sizes</label>
+                        <div className="space-y-3 bg-neutral-50 p-4 border border-neutral-200">
+                            {/* Small */}
+                            <div className="flex items-center gap-4">
+                                <label className="flex items-center gap-2 cursor-pointer min-w-[120px]">
+                                    <input
+                                        type="checkbox"
+                                        checked={form.sizeOptions?.small.enabled || false}
+                                        onChange={(e) => setForm({
+                                            ...form,
+                                            sizeOptions: {
+                                                ...form.sizeOptions!,
+                                                small: { ...form.sizeOptions!.small, enabled: e.target.checked }
+                                            }
+                                        })}
+                                        className="w-4 h-4 rounded-none border-border checked:bg-primary"
+                                    />
+                                    <span className="text-sm font-medium">Small</span>
+                                </label>
+                                <input
+                                    type="number"
+                                    value={form.sizeOptions?.small.price || 0}
+                                    onChange={(e) => setForm({
+                                        ...form,
+                                        sizeOptions: {
+                                            ...form.sizeOptions!,
+                                            small: { ...form.sizeOptions!.small, price: Number(e.target.value) }
+                                        }
+                                    })}
+                                    disabled={!form.sizeOptions?.small.enabled}
+                                    className="input input-sm w-32 font-mono"
+                                    placeholder="0"
+                                />
+                                <span className="text-xs text-neutral-500">VND</span>
+                            </div>
+
+                            {/* Medium */}
+                            <div className="flex items-center gap-4">
+                                <label className="flex items-center gap-2 cursor-pointer min-w-[120px]">
+                                    <input
+                                        type="checkbox"
+                                        checked={form.sizeOptions?.medium.enabled || false}
+                                        onChange={(e) => setForm({
+                                            ...form,
+                                            sizeOptions: {
+                                                ...form.sizeOptions!,
+                                                medium: { ...form.sizeOptions!.medium, enabled: e.target.checked }
+                                            }
+                                        })}
+                                        className="w-4 h-4 rounded-none border-border checked:bg-primary"
+                                    />
+                                    <span className="text-sm font-medium">Medium</span>
+                                </label>
+                                <input
+                                    type="number"
+                                    value={form.sizeOptions?.medium.price || 65000}
+                                    onChange={(e) => setForm({
+                                        ...form,
+                                        sizeOptions: {
+                                            ...form.sizeOptions!,
+                                            medium: { ...form.sizeOptions!.medium, price: Number(e.target.value) }
+                                        }
+                                    })}
+                                    disabled={!form.sizeOptions?.medium.enabled}
+                                    className="input input-sm w-32 font-mono"
+                                    placeholder="65000"
+                                />
+                                <span className="text-xs text-neutral-500">VND</span>
+                            </div>
+
+                            {/* Large */}
+                            <div className="flex items-center gap-4">
+                                <label className="flex items-center gap-2 cursor-pointer min-w-[120px]">
+                                    <input
+                                        type="checkbox"
+                                        checked={form.sizeOptions?.large.enabled || false}
+                                        onChange={(e) => setForm({
+                                            ...form,
+                                            sizeOptions: {
+                                                ...form.sizeOptions!,
+                                                large: { ...form.sizeOptions!.large, enabled: e.target.checked }
+                                            }
+                                        })}
+                                        className="w-4 h-4 rounded-none border-border checked:bg-primary"
+                                    />
+                                    <span className="text-sm font-medium">Large</span>
+                                </label>
+                                <input
+                                    type="number"
+                                    value={form.sizeOptions?.large.price || 69000}
+                                    onChange={(e) => setForm({
+                                        ...form,
+                                        sizeOptions: {
+                                            ...form.sizeOptions!,
+                                            large: { ...form.sizeOptions!.large, price: Number(e.target.value) }
+                                        }
+                                    })}
+                                    disabled={!form.sizeOptions?.large.enabled}
+                                    className="input input-sm w-32 font-mono"
+                                    placeholder="69000"
+                                />
+                                <span className="text-xs text-neutral-500">VND</span>
+                            </div>
+                        </div>
                     </div>
 
                     <div className="flex gap-6 pt-2">
