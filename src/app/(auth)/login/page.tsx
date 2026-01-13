@@ -3,12 +3,12 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Coffee, Lock, User, AlertCircle, Loader2 } from 'lucide-react';
-import { encrypt, decrypt } from '@/lib/encryption';
 
 export default function LoginPage() {
     const router = useRouter();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [secretKey, setSecretKey] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
 
@@ -18,10 +18,20 @@ export default function LoginPage() {
         setLoading(true);
 
         try {
-            // Encrypt the credentials
-            const encryptedData = encrypt({ email: username, password });
+            if (!secretKey) {
+                setError('Secret key is required');
+                setLoading(false);
+                return;
+            }
 
-            // Use the external server API URL directly
+            // Encrypt credentials with user-provided secret key
+            const CryptoJS = (await import('crypto-js')).default;
+            const encryptedData = CryptoJS.AES.encrypt(
+                JSON.stringify({ email: username, password }),
+                secretKey
+            ).toString();
+
+            // Send encrypted data
             const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
             const res = await fetch(`${API_URL}/api/auth/admin-login`, {
                 method: 'POST',
@@ -33,19 +43,14 @@ export default function LoginPage() {
 
             const responseData = await res.json();
 
-            if (res.ok) {
-                // Decrypt the session data
-                const decryptedSession = decrypt(responseData.data);
+            if (res.ok && responseData.success) {
+                // Set the admin token cookie
+                document.cookie = `admin_token=${responseData.token}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Strict; Secure`;
 
-                if (decryptedSession && decryptedSession.success) {
-                    // Set the admin token cookie
-                    document.cookie = `admin_token=${decryptedSession.token}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Strict`;
-
-                    // Use full page reload to ensure middleware picks up the cookie
-                    window.location.href = '/';
-                } else {
-                    setError('Failed to process server response');
-                }
+                // Use full page reload to ensure middleware picks up the cookie
+                window.location.href = '/';
+            } else {
+                setError(responseData.error || 'Invalid credentials');
             } else {
                 setError(responseData.error || 'Login failed');
             }
@@ -121,6 +126,26 @@ export default function LoginPage() {
                                         onChange={(e) => setPassword(e.target.value)}
                                         className="input !pl-12 bg-neutral-50 focus:bg-white"
                                         placeholder="Enter password"
+                                    />
+                                </div>
+                            </div>
+
+                            <div>
+                                <label className="text-label block mb-2" htmlFor="secretKey">
+                                    Secret Key
+                                </label>
+                                <div className="relative group">
+                                    <div className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400 group-focus-within:text-primary transition-colors">
+                                        <Lock className="w-5 h-5" />
+                                    </div>
+                                    <input
+                                        id="secretKey"
+                                        type="password"
+                                        required
+                                        value={secretKey}
+                                        onChange={(e) => setSecretKey(e.target.value)}
+                                        className="input !pl-12 bg-neutral-50 focus:bg-white"
+                                        placeholder="Enter encryption secret key"
                                     />
                                 </div>
                             </div>
