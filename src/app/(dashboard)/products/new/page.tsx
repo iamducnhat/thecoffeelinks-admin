@@ -14,11 +14,20 @@ interface Category {
     type: string;
 }
 
+interface Topping {
+    id: string;
+    name: string;
+    price: number;
+    is_available: boolean;
+}
+
 export default function NewProductPage() {
     const router = useRouter();
     const [saving, setSaving] = useState(false);
     const [categories, setCategories] = useState<Category[]>([]);
+    const [toppings, setToppings] = useState<Topping[]>([]);
     const [loadingCategories, setLoadingCategories] = useState(true);
+    const [loadingToppings, setLoadingToppings] = useState(true);
     const [form, setForm] = useState({
         name: '',
         description: '',
@@ -26,6 +35,7 @@ export default function NewProductPage() {
         image: '/images/default.jpg',
         isPopular: false,
         isNew: true,
+        availableToppings: [] as string[],
         sizeOptions: {
             small: { enabled: false, price: 0 },
             medium: { enabled: true, price: 65000 },
@@ -35,6 +45,7 @@ export default function NewProductPage() {
 
     useEffect(() => {
         fetchCategories();
+        fetchToppings();
     }, []);
 
     const fetchCategories = async () => {
@@ -49,6 +60,18 @@ export default function NewProductPage() {
             console.error('Failed to fetch categories:', error);
         } finally {
             setLoadingCategories(false);
+        }
+    };
+
+    const fetchToppings = async () => {
+        try {
+            const res = await fetch(`${API_URL}/api/toppings`);
+            const data = await res.json();
+            setToppings(data.toppings || []);
+        } catch (error) {
+            console.error('Failed to fetch toppings:', error);
+        } finally {
+            setLoadingToppings(false);
         }
     };
 
@@ -288,6 +311,42 @@ export default function NewProductPage() {
                             />
                             <span className="text-xs font-bold uppercase tracking-wider text-neutral-600 group-hover:text-primary transition-colors">Mark as New</span>
                         </label>
+                    </div>
+
+                    <div className="mb-6 mt-8 pt-8 border-t border-neutral-200">
+                        <label className="text-label mb-4 block">Available Toppings</label>
+                        {loadingToppings ? (
+                            <div className="text-sm text-neutral-500">Loading toppings...</div>
+                        ) : toppings.length === 0 ? (
+                            <div className="text-sm text-neutral-500">No toppings available. Create some first.</div>
+                        ) : (
+                            <div className="space-y-2 bg-neutral-50 p-4 border border-neutral-200 rounded-lg">
+                                {toppings.map((topping) => (
+                                    <label key={topping.id} className="flex items-center gap-3 cursor-pointer">
+                                        <input
+                                            type="checkbox"
+                                            checked={form.availableToppings.includes(topping.id)}
+                                            onChange={(e) => {
+                                                if (e.target.checked) {
+                                                    setForm(prev => ({
+                                                        ...prev,
+                                                        availableToppings: [...prev.availableToppings, topping.id]
+                                                    }));
+                                                } else {
+                                                    setForm(prev => ({
+                                                        ...prev,
+                                                        availableToppings: prev.availableToppings.filter(t => t !== topping.id)
+                                                    }));
+                                                }
+                                            }}
+                                            className="w-4 h-4 rounded-none border-border checked:bg-primary"
+                                        />
+                                        <span className="text-sm font-medium">{topping.name}</span>
+                                        <span className="text-xs text-neutral-500 font-mono">+{topping.price}đ</span>
+                                    </label>
+                                ))}
+                            </div>
+                        )}
                     </div>
                 </div>
 
