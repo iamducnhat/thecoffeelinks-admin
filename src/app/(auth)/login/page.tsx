@@ -32,6 +32,7 @@ export default function LoginPage() {
             ).toString();
 
             // Send encrypted data
+            // Send encrypted data
             const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
             const res = await fetch(`${API_URL}/api/auth/admin-login`, {
                 method: 'POST',
@@ -41,7 +42,17 @@ export default function LoginPage() {
                 body: JSON.stringify({ data: encryptedData }),
             });
 
-            const responseData = await res.json();
+            const responseText = await res.text();
+            let responseData;
+
+            try {
+                responseData = JSON.parse(responseText);
+            } catch (e) {
+                console.error("Failed to parse response as JSON:", e);
+                console.error("Raw response status:", res.status);
+                console.error("Raw response body:", responseText);
+                throw new Error(`Server returned ${res.status} but response was not valid JSON. See console for details.`);
+            }
 
             if (res.ok && responseData.success) {
                 // Set the admin token cookie
@@ -52,9 +63,9 @@ export default function LoginPage() {
             } else {
                 setError(responseData.error || 'Invalid PIN or credentials');
             }
-        } catch (err) {
-            console.error(err);
-            setError('An unexpected error occurred');
+        } catch (err: any) {
+            console.error("Login Error:", err);
+            setError(err.message || 'An unexpected error occurred');
         } finally {
             setLoading(false);
         }
