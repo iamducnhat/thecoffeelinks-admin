@@ -33,11 +33,11 @@ export default function Sidebar() {
             <div className="h-28 px-7 flex items-center border-b border-neutral-200/60">
                 <div className="flex items-center gap-4">
                     <div className="relative">
-                        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-coffee-dark to-espresso flex items-center justify-center shadow-lg">
-                            <Coffee size={22} className="text-caramel-light" />
+                        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-forest-canopy to-forest-floor flex items-center justify-center shadow-lg">
+                            <Coffee size={22} className="text-morning-fog" />
                         </div>
-                        <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-gold flex items-center justify-center">
-                            <Sparkles size={8} className="text-coffee-dark" />
+                        <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-sun-ray flex items-center justify-center">
+                            <Sparkles size={8} className="text-forest-canopy" />
                         </div>
                     </div>
                     <div>
@@ -64,10 +64,10 @@ export default function Sidebar() {
                             key={item.href}
                             href={item.href}
                             className={`
-                                group relative flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-400
+                                group relative flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-500
                                 animate-fade-in-up stagger-${Math.min(index + 1, 4)}
                                 ${isActive
-                                    ? 'bg-gradient-to-r from-coffee-dark to-coffee-rich text-cream shadow-lg'
+                                    ? 'bg-gradient-to-r from-forest-canopy to-forest-floor text-morning-fog shadow-lg'
                                     : 'text-foreground-muted hover:bg-neutral-50 hover:text-foreground'
                                 }
                             `}
@@ -77,7 +77,7 @@ export default function Sidebar() {
                             <div className={`
                                 w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300
                                 ${isActive
-                                    ? 'bg-gold/20 text-gold'
+                                    ? 'bg-sun-ray/20 text-sun-ray'
                                     : 'bg-neutral-100 text-neutral-500 group-hover:bg-neutral-200 group-hover:text-foreground'
                                 }
                             `}>
@@ -89,7 +89,7 @@ export default function Sidebar() {
                             </span>
 
                             {isActive && (
-                                <ChevronRight size={16} className="text-gold/60" />
+                                <ChevronRight size={16} className="text-sun-ray/60" />
                             )}
                         </Link>
                     );
@@ -101,9 +101,9 @@ export default function Sidebar() {
                 <Link
                     href="/settings"
                     className={`
-                        flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300
+                        flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-500
                         ${pathname === '/settings'
-                            ? 'bg-gradient-to-r from-coffee-dark to-coffee-rich text-cream shadow-lg'
+                            ? 'bg-gradient-to-r from-forest-canopy to-forest-floor text-morning-fog shadow-lg'
                             : 'text-foreground-muted hover:bg-neutral-50 hover:text-foreground'
                         }
                     `}
@@ -111,7 +111,7 @@ export default function Sidebar() {
                     <div className={`
                         w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300
                         ${pathname === '/settings'
-                            ? 'bg-gold/20 text-gold'
+                            ? 'bg-sun-ray/20 text-sun-ray'
                             : 'bg-neutral-100 text-neutral-500'
                         }
                     `}>
