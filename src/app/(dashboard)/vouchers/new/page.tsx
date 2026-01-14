@@ -16,6 +16,10 @@ export default function NewVoucherPage() {
         type: 'percentage' as 'percentage' | 'fixed',
         minOrder: '0',
         maxDiscount: '',
+        description: '',
+        expiresAt: '',
+        imageUrl: '',
+        isActive: true,
     });
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -33,6 +37,10 @@ export default function NewVoucherPage() {
                     discount: form.type === 'fixed' ? parseInt(form.discount) : null,
                     minOrder: parseInt(form.minOrder),
                     maxDiscount: form.maxDiscount ? parseInt(form.maxDiscount) : undefined,
+                    description: form.description || undefined,
+                    expiresAt: form.expiresAt || undefined,
+                    imageUrl: form.imageUrl || undefined,
+                    isActive: form.isActive,
                 }),
             });
 
@@ -130,6 +138,54 @@ export default function NewVoucherPage() {
                                 />
                             </div>
                         )}
+                    </div>
+
+                    <div className="mb-6 mt-6">
+                        <label className="text-label mb-2 block">Description</label>
+                        <textarea
+                            value={form.description}
+                            onChange={(e) => setForm({ ...form, description: e.target.value })}
+                            className="input"
+                            placeholder="e.g. Get 10% off your first order!"
+                            rows={2}
+                        />
+                        <p className="text-xs text-muted mt-1">Shown to customers in the mobile app</p>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <label className="text-label mb-2 block">Expiration Date</label>
+                            <input
+                                type="datetime-local"
+                                value={form.expiresAt}
+                                onChange={(e) => setForm({ ...form, expiresAt: e.target.value })}
+                                className="input"
+                            />
+                            <p className="text-xs text-muted mt-1">Leave empty for no expiration</p>
+                        </div>
+                        <div>
+                            <label className="text-label mb-2 block">Voucher Image URL</label>
+                            <input
+                                type="url"
+                                value={form.imageUrl}
+                                onChange={(e) => setForm({ ...form, imageUrl: e.target.value })}
+                                className="input"
+                                placeholder="https://..."
+                            />
+                        </div>
+                    </div>
+
+                    <div className="flex items-center gap-3">
+                        <input
+                            type="checkbox"
+                            id="isActive"
+                            checked={form.isActive}
+                            onChange={(e) => setForm({ ...form, isActive: e.target.checked })}
+                            className="w-4 h-4"
+                        />
+                        <label htmlFor="isActive" className="text-sm">
+                            Active (visible to customers)
+                        </label>
                     </div>
                 </div>
 
