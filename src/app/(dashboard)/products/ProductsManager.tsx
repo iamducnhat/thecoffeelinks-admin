@@ -4,8 +4,7 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Plus, Edit2, Trash2, Search, Coffee, Layers, UtensilsCrossed } from 'lucide-react';
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://appcafe-server.vercel.app';
+import { api } from '@/lib/api';
 
 interface Category {
     id: string;
@@ -68,8 +67,7 @@ export default function ProductsManager() {
 
     const fetchProducts = async () => {
         try {
-            const res = await fetch(`${API_URL}/api/products`);
-            const data = await res.json();
+            const data = await api.get<{ products: Product[] }>('/api/products');
             setProducts(data.products || []);
         } catch (error) {
             console.error('Failed to fetch products:', error);
@@ -78,8 +76,7 @@ export default function ProductsManager() {
 
     const fetchCategories = async () => {
         try {
-            const res = await fetch(`${API_URL}/api/categories`);
-            const data = await res.json();
+            const data = await api.get<{ categories: Category[] }>('/api/categories');
             setCategories(data.categories || []);
         } catch (error) {
             console.error('Failed to fetch categories:', error);
@@ -88,8 +85,7 @@ export default function ProductsManager() {
 
     const fetchToppings = async () => {
         try {
-            const res = await fetch(`${API_URL}/api/toppings`);
-            const data = await res.json();
+            const data = await api.get<{ toppings: Topping[] }>('/api/toppings');
             setToppings(data.toppings || []);
         } catch (error) {
             console.error('Failed to fetch toppings:', error);
@@ -99,7 +95,7 @@ export default function ProductsManager() {
     const handleDeleteProduct = async (id: string) => {
         if (!confirm('Are you sure you want to delete this product?')) return;
         try {
-            await fetch(`${API_URL}/api/products/${id}`, { method: 'DELETE' });
+            await api.delete(`/api/products/${id}`);
             setProducts(products.filter(p => p.id !== id));
         } catch (error) {
             console.error('Failed to delete product:', error);
@@ -109,7 +105,7 @@ export default function ProductsManager() {
     const handleDeleteCategory = async (id: string) => {
         if (!confirm('Are you sure you want to delete this category?')) return;
         try {
-            await fetch(`${API_URL}/api/categories/${id}`, { method: 'DELETE' });
+            await api.delete(`/api/categories/${id}`);
             setCategories(categories.filter(c => c.id !== id));
         } catch (error) {
             console.error('Failed to delete category:', error);
@@ -119,7 +115,7 @@ export default function ProductsManager() {
     const handleDeleteTopping = async (id: string) => {
         if (!confirm('Are you sure you want to delete this topping?')) return;
         try {
-            await fetch(`${API_URL}/api/toppings/${id}`, { method: 'DELETE' });
+            await api.delete(`/api/toppings/${id}`);
             setToppings(toppings.filter(t => t.id !== id));
         } catch (error) {
             console.error('Failed to delete topping:', error);
@@ -131,12 +127,8 @@ export default function ProductsManager() {
         if (!newCategory.name.trim()) return;
 
         try {
-            const res = await fetch(`${API_URL}/api/categories`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(newCategory),
-            });
-            const data = await res.json();
+            const data = await api.post<{ category: Category }>('/api/categories', newCategory);
+
             if (data.category) {
                 setCategories([...categories, data.category]);
                 setNewCategory({ name: '', type: 'menu' });
@@ -152,12 +144,8 @@ export default function ProductsManager() {
         if (!newTopping.name.trim()) return;
 
         try {
-            const res = await fetch(`${API_URL}/api/toppings`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(newTopping),
-            });
-            const data = await res.json();
+            const data = await api.post<{ topping: Topping }>('/api/toppings', newTopping);
+
             if (data.topping) {
                 setToppings([...toppings, data.topping]);
                 setNewTopping({ name: '', price: 0 });
@@ -229,11 +217,10 @@ export default function ProductsManager() {
                             setSearchQuery('');
                             setSelectedCategory('all');
                         }}
-                        className={`flex-1 px-6 py-4 font-medium border-b-2 transition-all flex items-center justify-center gap-2 ${
-                            activeTab === 'products'
+                        className={`flex-1 px-6 py-4 font-medium border-b-2 transition-all flex items-center justify-center gap-2 ${activeTab === 'products'
                                 ? 'border-primary text-primary'
                                 : 'border-transparent text-neutral-600 hover:text-foreground'
-                        }`}
+                            }`}
                     >
                         <Coffee size={18} />
                         Products
@@ -243,11 +230,10 @@ export default function ProductsManager() {
                             setActiveTab('categories');
                             setSearchQuery('');
                         }}
-                        className={`flex-1 px-6 py-4 font-medium border-b-2 transition-all flex items-center justify-center gap-2 ${
-                            activeTab === 'categories'
+                        className={`flex-1 px-6 py-4 font-medium border-b-2 transition-all flex items-center justify-center gap-2 ${activeTab === 'categories'
                                 ? 'border-primary text-primary'
                                 : 'border-transparent text-neutral-600 hover:text-foreground'
-                        }`}
+                            }`}
                     >
                         <Layers size={18} />
                         Categories
@@ -257,11 +243,10 @@ export default function ProductsManager() {
                             setActiveTab('toppings');
                             setSearchQuery('');
                         }}
-                        className={`flex-1 px-6 py-4 font-medium border-b-2 transition-all flex items-center justify-center gap-2 ${
-                            activeTab === 'toppings'
+                        className={`flex-1 px-6 py-4 font-medium border-b-2 transition-all flex items-center justify-center gap-2 ${activeTab === 'toppings'
                                 ? 'border-primary text-primary'
                                 : 'border-transparent text-neutral-600 hover:text-foreground'
-                        }`}
+                            }`}
                     >
                         <UtensilsCrossed size={18} />
                         Toppings

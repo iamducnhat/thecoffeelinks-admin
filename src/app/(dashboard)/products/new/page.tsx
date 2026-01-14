@@ -5,8 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, Save } from 'lucide-react';
 import ImageUpload from '@/components/ImageUpload';
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://appcafe-server.vercel.app';
+import { api } from '@/lib/api';
 
 interface Category {
     id: string;
@@ -50,8 +49,7 @@ export default function NewProductPage() {
 
     const fetchCategories = async () => {
         try {
-            const res = await fetch(`${API_URL}/api/categories`);
-            const data = await res.json();
+            const data = await api.get<{ categories: Category[] }>('/api/categories');
             setCategories(data.categories || []);
             if (data.categories?.length > 0) {
                 setForm(prev => ({ ...prev, categoryId: data.categories[0].id }));
@@ -65,8 +63,7 @@ export default function NewProductPage() {
 
     const fetchToppings = async () => {
         try {
-            const res = await fetch(`${API_URL}/api/toppings`);
-            const data = await res.json();
+            const data = await api.get<{ toppings: Topping[] }>('/api/toppings');
             setToppings(data.toppings || []);
         } catch (error) {
             console.error('Failed to fetch toppings:', error);
@@ -80,29 +77,12 @@ export default function NewProductPage() {
         setSaving(true);
 
         try {
-            // Get admin token from cookie
-            const adminToken = document.cookie
-                .split('; ')
-                .find(row => row.startsWith('admin_token='))
-                ?.split('=')[1];
-
-            const res = await fetch(`${API_URL}/api/products`, {
-                method: 'POST',
-                headers: { 
-                    'Content-Type': 'application/json',
-                    'X-Admin-Key': adminToken || ''
-                },
-                body: JSON.stringify({
-                    ...form,
-                    id: form.name.toLowerCase().replace(/\s+/g, '-'),
-                }),
+            await api.post('/api/products', {
+                ...form,
+                id: form.name.toLowerCase().replace(/\s+/g, '-'),
             });
 
-            if (res.ok) {
-                router.push('/products');
-            } else {
-                alert('Failed to create product');
-            }
+            router.push('/products');
         } catch (error) {
             console.error('Error:', error);
             alert('Failed to create product');
