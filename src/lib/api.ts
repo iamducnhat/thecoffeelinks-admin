@@ -23,6 +23,7 @@ class ApiClient {
 
         if (token) {
             headers['X-Admin-Key'] = token;
+            console.log('API Helper: Sending X-Admin-Key', token.substring(0, 4) + '...');
         } else {
             console.warn('API Helper: No admin_token found in cookies. Requesting', endpoint, 'without admin key.');
         }
