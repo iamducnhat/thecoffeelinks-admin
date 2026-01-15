@@ -36,6 +36,12 @@ class ApiClient {
         const data = await response.json();
 
         if (!response.ok) {
+            if (response.status === 401) {
+                // Token might be invalid/stale due to environment change
+                document.cookie = 'admin_token=; path=/; max-age=0';
+                window.location.href = '/login';
+                return {} as T; // Stop execution
+            }
             throw new Error(data.error || `Request failed with status ${response.status}`);
         }
 
