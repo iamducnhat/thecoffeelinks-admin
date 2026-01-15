@@ -2,7 +2,14 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 export function middleware(request: NextRequest) {
-    const adminToken = request.cookies.get('admin_token')?.value;
+    // URL-decode the token to handle special characters like =
+    const rawToken = request.cookies.get('admin_token')?.value;
+    let adminToken: string | undefined;
+    try {
+        adminToken = rawToken ? decodeURIComponent(rawToken) : undefined;
+    } catch {
+        adminToken = rawToken;
+    }
     const { pathname } = request.nextUrl;
     const adminSecret = process.env.ADMIN_SECRET?.trim();
 

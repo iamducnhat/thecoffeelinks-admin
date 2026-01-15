@@ -125,10 +125,18 @@ export default function EditProductPage() {
 
         try {
             // Get admin token from cookie
-            const adminToken = document.cookie
+            const adminTokenCookie = document.cookie
                 .split('; ')
-                .find(row => row.startsWith('admin_token='))
-                ?.split('=')[1];
+                .find(row => row.startsWith('admin_token='));
+            // Use substring to handle tokens that contain '=' characters
+            // URL-decode to handle special characters
+            const rawToken = adminTokenCookie?.substring('admin_token='.length);
+            let adminToken: string | undefined;
+            try {
+                adminToken = rawToken ? decodeURIComponent(rawToken) : undefined;
+            } catch {
+                adminToken = rawToken;
+            }
 
             const res = await fetch(`${API_URL}/api/products/${id}`, {
                 method: 'PUT',

@@ -8,10 +8,19 @@ class ApiClient {
     private getAdminToken(): string | null {
         if (typeof document === 'undefined') return null;
 
-        return document.cookie
+        const cookie = document.cookie
             .split('; ')
-            .find(row => row.startsWith('admin_token='))
-            ?.split('=')[1] || null;
+            .find(row => row.startsWith('admin_token='));
+        
+        if (!cookie) return null;
+        // Use substring to handle tokens that contain '=' characters
+        // URL-decode to handle special characters
+        const rawToken = cookie.substring('admin_token='.length);
+        try {
+            return decodeURIComponent(rawToken) || null;
+        } catch {
+            return rawToken || null;
+        }
     }
 
     private async request<T>(endpoint: string, options: RequestOptions = {}): Promise<T> {

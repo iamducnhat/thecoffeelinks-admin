@@ -52,10 +52,10 @@ export default function LoginPage() {
             }
 
             if (res.ok && responseData.success) {
-                // Set the admin token cookie
-                // Set the admin token cookie
+                // Set the admin token cookie (URL-encoded to handle special characters like =)
                 const isSecure = window.location.protocol === 'https:';
-                document.cookie = `admin_token=${responseData.token}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Lax${isSecure ? '; Secure' : ''}`;
+                const encodedToken = encodeURIComponent(responseData.token);
+                document.cookie = `admin_token=${encodedToken}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Lax${isSecure ? '; Secure' : ''}`;
 
                 // Use full page reload to ensure middleware picks up the cookie
                 window.location.href = '/';
