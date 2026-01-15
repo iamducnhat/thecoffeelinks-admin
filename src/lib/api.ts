@@ -23,6 +23,8 @@ class ApiClient {
 
         if (token) {
             headers['X-Admin-Key'] = token;
+        } else {
+            console.warn('API Helper: No admin_token found in cookies. Requesting', endpoint, 'without admin key.');
         }
 
         const response = await fetch(`${API_URL}${endpoint}`, {
